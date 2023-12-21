@@ -15,15 +15,16 @@ namespace CodeIgniter\Models;
 
 use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Exceptions\ModelException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\Support\Models\JobModel;
 use Tests\Support\Models\SecondaryModel;
 use Tests\Support\Models\UserModel;
 
 /**
- * @group DatabaseLive
- *
  * @internal
  */
+#[Group('DatabaseLive')]
 final class FindModelTest extends LiveModelTestCase
 {
     public function testFindReturnsRow(): void
@@ -158,13 +159,8 @@ final class FindModelTest extends LiveModelTestCase
         $this->assertSame(3, (int) $user->id);
     }
 
-    /**
-     * @dataProvider provideFirstAggregate
-     *
-     * @param mixed $groupBy
-     * @param mixed $total
-     */
-    public function testFirstAggregate($groupBy, $total): void
+    #[DataProvider('provideFirstAggregate')]
+    public function testFirstAggregate(mixed $groupBy, mixed $total): void
     {
         $this->createModel(UserModel::class);
 
@@ -194,13 +190,8 @@ final class FindModelTest extends LiveModelTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideAggregateAndGroupBy
-     *
-     * @param mixed $aggregate
-     * @param mixed $groupBy
-     */
-    public function testFirstRespectsSoftDeletes($aggregate, $groupBy): void
+    #[DataProvider('provideAggregateAndGroupBy')]
+    public function testFirstRespectsSoftDeletes(mixed $aggregate, mixed $groupBy): void
     {
         $this->db->table('user')
             ->where('id', 1)
@@ -240,13 +231,8 @@ final class FindModelTest extends LiveModelTestCase
         $this->assertSame(1, (int) $user->id);
     }
 
-    /**
-     * @dataProvider provideAggregateAndGroupBy
-     *
-     * @param mixed $aggregate
-     * @param mixed $groupBy
-     */
-    public function testFirstRecoverTempUseSoftDeletes($aggregate, $groupBy): void
+    #[DataProvider('provideAggregateAndGroupBy')]
+    public function testFirstRecoverTempUseSoftDeletes(mixed $aggregate, mixed $groupBy): void
     {
         $this->createModel(UserModel::class);
         $this->model->delete(1);

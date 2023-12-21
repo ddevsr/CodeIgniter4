@@ -42,6 +42,7 @@ use Kint\Renderer\CliRenderer;
 use Kint\Renderer\RichRenderer;
 use Locale;
 use LogicException;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use Throwable;
 
 /**
@@ -56,7 +57,7 @@ class CodeIgniter
     /**
      * The current version of CodeIgniter Framework
      */
-    public const CI_VERSION = '4.4.3';
+    final public const CI_VERSION = '4.4.3';
 
     /**
      * App startup time.
@@ -212,9 +213,8 @@ class CodeIgniter
      * @return void
      *
      * @throws FrameworkException
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     protected function resolvePlatformExtensions()
     {
         $requiredExtensions = [
@@ -557,12 +557,11 @@ class CodeIgniter
      *     testing
      *     production
      *
-     * @codeCoverageIgnore
-     *
      * @return void
      *
      * @deprecated 4.4.0 No longer used. Moved to index.php and spark.
      */
+    #[CodeCoverageIgnore]
     protected function detectEnvironment()
     {
         // Make sure ENVIRONMENT isn't already set by other means.
@@ -867,7 +866,7 @@ class CodeIgniter
         $this->benchmark->start('controller_constructor');
 
         // Is it routed to a Closure?
-        if (is_object($this->controller) && (get_class($this->controller) === 'Closure')) {
+        if (is_object($this->controller) && ($this->controller::class === 'Closure')) {
             $controller = $this->controller;
 
             return $controller(...$this->router->params());
@@ -1040,7 +1039,7 @@ class CodeIgniter
         }
 
         // Ignore non-HTML responses
-        if (strpos($this->response->getHeaderLine('Content-Type'), 'text/html') === false) {
+        if (! str_contains($this->response->getHeaderLine('Content-Type'), 'text/html')) {
             return;
         }
 
@@ -1106,10 +1105,8 @@ class CodeIgniter
      * @param int $code
      *
      * @deprecated 4.4.0 No longer Used. Moved to index.php.
-     *
-     * @return void
      */
-    protected function callExit($code)
+    protected function callExit($code): never
     {
         exit($code); // @codeCoverageIgnore
     }

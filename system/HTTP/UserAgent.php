@@ -14,13 +14,14 @@ declare(strict_types=1);
 namespace CodeIgniter\HTTP;
 
 use Config\UserAgents;
+use Stringable;
 
 /**
  * Abstraction for an HTTP user agent
  *
  * @see \CodeIgniter\HTTP\UserAgentTest
  */
-class UserAgent
+class UserAgent implements Stringable
 {
     /**
      * Current user-agent
@@ -109,7 +110,7 @@ class UserAgent
         $this->config = $config ?? config(UserAgents::class);
 
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
-            $this->agent = trim($_SERVER['HTTP_USER_AGENT']);
+            $this->agent = trim((string) $_SERVER['HTTP_USER_AGENT']);
             $this->compileData();
         }
     }
@@ -177,7 +178,7 @@ class UserAgent
             if (empty($_SERVER['HTTP_REFERER'])) {
                 $this->referrer = false;
             } else {
-                $refererHost = @parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
+                $refererHost = @parse_url((string) $_SERVER['HTTP_REFERER'], PHP_URL_HOST);
                 $ownHost     = parse_url(\base_url(), PHP_URL_HOST);
 
                 $this->referrer = ($refererHost && $refererHost !== $ownHost);
@@ -240,7 +241,7 @@ class UserAgent
      */
     public function getReferrer(): string
     {
-        return empty($_SERVER['HTTP_REFERER']) ? '' : trim($_SERVER['HTTP_REFERER']);
+        return empty($_SERVER['HTTP_REFERER']) ? '' : trim((string) $_SERVER['HTTP_REFERER']);
     }
 
     /**

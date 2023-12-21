@@ -199,7 +199,7 @@ class LocalizationFinder extends BaseCommand
         }
 
         foreach ($matches[1] as $phraseKey) {
-            $phraseKeys = explode('.', $phraseKey);
+            $phraseKeys = explode('.', (string) $phraseKey);
 
             // Language key not have Filename or Lang key
             if (count($phraseKeys) < 2) {

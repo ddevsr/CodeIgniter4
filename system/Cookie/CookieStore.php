@@ -17,6 +17,7 @@ use ArrayIterator;
 use CodeIgniter\Cookie\Exceptions\CookieException;
 use Countable;
 use IteratorAggregate;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use Traversable;
 
 /**
@@ -225,7 +226,7 @@ class CookieStore implements Countable, IteratorAggregate
     protected function validateCookies(array $cookies): void
     {
         foreach ($cookies as $index => $cookie) {
-            $type = is_object($cookie) ? get_class($cookie) : gettype($cookie);
+            $type = get_debug_type($cookie);
 
             if (! $cookie instanceof Cookie) {
                 throw CookieException::forInvalidCookieInstance([static::class, Cookie::class, $type, $index]);
@@ -236,10 +237,9 @@ class CookieStore implements Countable, IteratorAggregate
     /**
      * Extracted call to `setrawcookie()` in order to run unit tests on it.
      *
-     * @codeCoverageIgnore
-     *
      * @deprecated
      */
+    #[CodeCoverageIgnore]
     protected function setRawCookie(string $name, string $value, array $options): void
     {
         setrawcookie($name, $value, $options);
@@ -248,10 +248,9 @@ class CookieStore implements Countable, IteratorAggregate
     /**
      * Extracted call to `setcookie()` in order to run unit tests on it.
      *
-     * @codeCoverageIgnore
-     *
      * @deprecated
      */
+    #[CodeCoverageIgnore]
     protected function setCookie(string $name, string $value, array $options): void
     {
         setcookie($name, $value, $options);

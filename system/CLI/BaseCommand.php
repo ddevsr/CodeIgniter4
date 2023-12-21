@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace CodeIgniter\CLI;
 
 use Config\Exceptions;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use Psr\Log\LoggerInterface;
 use ReflectionException;
 use Throwable;
@@ -195,9 +196,8 @@ abstract class BaseCommand
      * Get pad for $key => $value array output
      *
      * @deprecated Use setPad() instead.
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public function getPad(array $array, int $pad): int
     {
         $max = 0;

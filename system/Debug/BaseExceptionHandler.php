@@ -25,11 +25,6 @@ use Throwable;
 abstract class BaseExceptionHandler
 {
     /**
-     * Config for debug exceptions.
-     */
-    protected ExceptionsConfig $config;
-
-    /**
      * Nesting level of the output buffering mechanism
      */
     protected int $obLevel;
@@ -40,10 +35,11 @@ abstract class BaseExceptionHandler
      */
     protected ?string $viewPath = null;
 
-    public function __construct(ExceptionsConfig $config)
-    {
-        $this->config = $config;
-
+    public function __construct(/**
+     * Config for debug exceptions.
+     */
+        protected ExceptionsConfig $config
+    ) {
         $this->obLevel = ob_get_level();
 
         if ($this->viewPath === null) {
@@ -83,8 +79,8 @@ abstract class BaseExceptionHandler
         }
 
         return [
-            'title'   => get_class($exception),
-            'type'    => get_class($exception),
+            'title'   => $exception::class,
+            'type'    => $exception::class,
             'code'    => $statusCode,
             'message' => $exception->getMessage(),
             'file'    => $exception->getFile(),
@@ -113,10 +109,10 @@ abstract class BaseExceptionHandler
     private function maskData($args, array $keysToMask, string $path = '')
     {
         foreach ($keysToMask as $keyToMask) {
-            $explode = explode('/', $keyToMask);
+            $explode = explode('/', (string) $keyToMask);
             $index   = end($explode);
 
-            if (strpos(strrev($path . '/' . $index), strrev($keyToMask)) === 0) {
+            if (str_starts_with(strrev($path . '/' . $index), strrev((string) $keyToMask))) {
                 if (is_array($args) && array_key_exists($index, $args)) {
                     $args[$index] = '******************';
                 } elseif (
@@ -178,7 +174,7 @@ abstract class BaseExceptionHandler
 
         try {
             $source = file_get_contents($file);
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             return false;
         }
 

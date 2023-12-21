@@ -16,13 +16,13 @@ namespace CodeIgniter\Commands;
 use CodeIgniter\Log\Logger;
 use CodeIgniter\Test\CIUnitTestCase;
 use Config\Services;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\Support\Commands\AppInfo;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class BaseCommandTest extends CIUnitTestCase
 {
     private Logger $logger;
@@ -37,14 +37,14 @@ final class BaseCommandTest extends CIUnitTestCase
     {
         $command = new AppInfo($this->logger, service('commands'));
 
-        $this->assertTrue(isset($command->group));
+        $this->assertTrue(property_exists($command, 'group'));
     }
 
     public function testMagicIssetFalse(): void
     {
         $command = new AppInfo($this->logger, service('commands'));
 
-        $this->assertFalse(isset($command->foobar));
+        $this->assertFalse(property_exists($command, 'foobar'));
     }
 
     public function testMagicGet(): void

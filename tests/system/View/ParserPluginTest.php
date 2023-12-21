@@ -16,12 +16,14 @@ namespace CodeIgniter\View;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Validation\Validation;
 use Config\Services;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class ParserPluginTest extends CIUnitTestCase
 {
     private Parser $parser;
@@ -44,12 +46,9 @@ final class ParserPluginTest extends CIUnitTestCase
         $this->assertSame(current_url(), $this->parser->renderString($template));
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
-     * @group SeparateProcess
-     */
+    #[PreserveGlobalState(false)]
+    #[Group('SeparateProcess')]
+    #[RunInSeparateProcess]
     public function testPreviousURL(): void
     {
         $template = '{+ previous_url +}';
@@ -131,7 +130,7 @@ final class ParserPluginTest extends CIUnitTestCase
 
     public function setHints($output)
     {
-        return preg_replace('/(<!-- DEBUG-VIEW+) (\w+) (\d+)/', '${1}', $output);
+        return preg_replace('/(<!-- DEBUG-VIEW+) (\w+) (\d+)/', '${1}', (string) $output);
     }
 
     public function testCspScriptNonceWithCspEnabled(): void

@@ -16,15 +16,18 @@ namespace CodeIgniter\Config;
 use CodeIgniter\Test\CIUnitTestCase;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use TypeError;
 
 /**
- * @backupGlobals enabled
- *
  * @internal
- *
- * @group SeparateProcess
  */
+#[BackupGlobals(true)]
+#[Group('SeparateProcess')]
 final class DotEnvTest extends CIUnitTestCase
 {
     private ?vfsStreamDirectory $root;
@@ -58,9 +61,7 @@ final class DotEnvTest extends CIUnitTestCase
         $this->assertFalse($dotenv->load());
     }
 
-    /**
-     * @dataProvider provideLoadsVars
-     */
+    #[DataProvider('provideLoadsVars')]
     public function testLoadsVars(string $expected, string $varname): void
     {
         $dotenv = new DotEnv($this->fixturesFolder);
@@ -84,10 +85,8 @@ final class DotEnvTest extends CIUnitTestCase
         ];
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testLoadsHex2Bin(): void
     {
         $dotenv = new DotEnv($this->fixturesFolder, 'encryption.env');
@@ -98,10 +97,8 @@ final class DotEnvTest extends CIUnitTestCase
         $this->assertSame('OpenSSL', getenv('encryption.driver'));
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testLoadsBase64(): void
     {
         $dotenv = new DotEnv($this->fixturesFolder, 'base64encryption.env');

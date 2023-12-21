@@ -50,7 +50,7 @@ final class IteratorFilter extends RecursiveFilterIterator implements RecursiveI
         }
 
         // Only consume files of interest.
-        $ext = trim(strtolower($this->current()->getExtension()), '. ');
+        $ext = trim(strtolower((string) $this->current()->getExtension()), '. ');
 
         return in_array($ext, $this->watchedExtensions, true);
     }

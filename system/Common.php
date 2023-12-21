@@ -11,6 +11,515 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+/**
+ * This file is part of CodeIgniter 4 framework.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 use CodeIgniter\Cache\CacheInterface;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Config\Factories;
@@ -38,6 +547,7 @@ use Config\Logger;
 use Config\Services;
 use Config\View;
 use Laminas\Escaper\Escaper;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 // Services Convenience Functions
 
@@ -94,29 +604,18 @@ if (! function_exists('clean_path')) {
         // Resolve relative paths
         try {
             $path = realpath($path) ?: $path;
-        } catch (ErrorException|ValueError $e) {
+        } catch (ErrorException|ValueError) {
             $path = 'error file path: ' . urlencode($path);
         }
 
-        switch (true) {
-            case strpos($path, APPPATH) === 0:
-                return 'APPPATH' . DIRECTORY_SEPARATOR . substr($path, strlen(APPPATH));
-
-            case strpos($path, SYSTEMPATH) === 0:
-                return 'SYSTEMPATH' . DIRECTORY_SEPARATOR . substr($path, strlen(SYSTEMPATH));
-
-            case strpos($path, FCPATH) === 0:
-                return 'FCPATH' . DIRECTORY_SEPARATOR . substr($path, strlen(FCPATH));
-
-            case defined('VENDORPATH') && strpos($path, VENDORPATH) === 0:
-                return 'VENDORPATH' . DIRECTORY_SEPARATOR . substr($path, strlen(VENDORPATH));
-
-            case strpos($path, ROOTPATH) === 0:
-                return 'ROOTPATH' . DIRECTORY_SEPARATOR . substr($path, strlen(ROOTPATH));
-
-            default:
-                return $path;
-        }
+        return match (true) {
+            str_starts_with($path, APPPATH)                             => 'APPPATH' . DIRECTORY_SEPARATOR . substr($path, strlen(APPPATH)),
+            str_starts_with($path, SYSTEMPATH)                          => 'SYSTEMPATH' . DIRECTORY_SEPARATOR . substr($path, strlen(SYSTEMPATH)),
+            str_starts_with($path, FCPATH)                              => 'FCPATH' . DIRECTORY_SEPARATOR . substr($path, strlen(FCPATH)),
+            defined('VENDORPATH') && str_starts_with($path, VENDORPATH) => 'VENDORPATH' . DIRECTORY_SEPARATOR . substr($path, strlen(VENDORPATH)),
+            str_starts_with($path, ROOTPATH)                            => 'ROOTPATH' . DIRECTORY_SEPARATOR . substr($path, strlen(ROOTPATH)),
+            default                                                     => $path,
+        };
     }
 }
 
@@ -385,21 +884,13 @@ if (! function_exists('env')) {
         }
 
         // Handle any boolean values
-        switch (strtolower($value)) {
-            case 'true':
-                return true;
-
-            case 'false':
-                return false;
-
-            case 'empty':
-                return '';
-
-            case 'null':
-                return null;
-        }
-
-        return $value;
+        return match (strtolower((string) $value)) {
+            'true'  => true,
+            'false' => false,
+            'empty' => '',
+            'null'  => null,
+            default => $value,
+        };
     }
 }
 
@@ -541,9 +1032,8 @@ if (! function_exists('function_usable')) {
      *
      * @return bool TRUE if the function exists and is safe to call,
      *              FALSE otherwise.
-     *
-     * @codeCoverageIgnore This is too exotic
      */
+    #[CodeCoverageIgnore]
     function function_usable(string $functionName): bool
     {
         static $_suhosin_func_blacklist;
@@ -594,7 +1084,7 @@ if (! function_exists('helper')) {
             $appHelper     = null;
             $localIncludes = [];
 
-            if (strpos($filename, '_helper') === false) {
+            if (! str_contains((string) $filename, '_helper')) {
                 $filename .= '_helper';
             }
 
@@ -605,7 +1095,7 @@ if (! function_exists('helper')) {
 
             // If the file is namespaced, we'll just grab that
             // file and not search for any others
-            if (strpos($filename, '\\') !== false) {
+            if (str_contains((string) $filename, '\\')) {
                 $path = $loader->locateFile($filename, 'Helpers');
 
                 if (empty($path)) {
@@ -619,9 +1109,9 @@ if (! function_exists('helper')) {
                 $paths = $loader->search('Helpers/' . $filename);
 
                 foreach ($paths as $path) {
-                    if (strpos($path, APPPATH . 'Helpers' . DIRECTORY_SEPARATOR) === 0) {
+                    if (str_starts_with((string) $path, APPPATH . 'Helpers' . DIRECTORY_SEPARATOR)) {
                         $appHelper = $path;
-                    } elseif (strpos($path, SYSTEMPATH . 'Helpers' . DIRECTORY_SEPARATOR) === 0) {
+                    } elseif (str_starts_with((string) $path, SYSTEMPATH . 'Helpers' . DIRECTORY_SEPARATOR)) {
                         $systemHelper = $path;
                     } else {
                         $localIncludes[] = $path;
@@ -656,9 +1146,8 @@ if (! function_exists('helper')) {
 if (! function_exists('is_cli')) {
     /**
      * Check if PHP was invoked from the command line.
-     *
-     * @codeCoverageIgnore Cannot be tested fully as PHPUnit always run in php-cli
      */
+    #[CodeCoverageIgnore]
     function is_cli(): bool
     {
         if (in_array(PHP_SAPI, ['cli', 'phpdbg'], true)) {
@@ -682,9 +1171,8 @@ if (! function_exists('is_really_writable')) {
      * @see https://bugs.php.net/bug.php?id=54709
      *
      * @throws Exception
-     *
-     * @codeCoverageIgnore Not practical to test, as travis runs on linux
      */
+    #[CodeCoverageIgnore]
     function is_really_writable(string $file): bool
     {
         // If we're on a Unix server we call is_writable
@@ -1206,12 +1694,11 @@ if (! function_exists('class_basename')) {
      * @param object|string $class
      *
      * @return string
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     function class_basename($class)
     {
-        $class = is_object($class) ? get_class($class) : $class;
+        $class = is_object($class) ? $class::class : $class;
 
         return basename(str_replace('\\', '/', $class));
     }
@@ -1224,13 +1711,12 @@ if (! function_exists('class_uses_recursive')) {
      * @param object|string $class
      *
      * @return array
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     function class_uses_recursive($class)
     {
         if (is_object($class)) {
-            $class = get_class($class);
+            $class = $class::class;
         }
 
         $results = [];
@@ -1250,9 +1736,8 @@ if (! function_exists('trait_uses_recursive')) {
      * @param string $trait
      *
      * @return array
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     function trait_uses_recursive($trait)
     {
         $traits = class_uses($trait) ?: [];

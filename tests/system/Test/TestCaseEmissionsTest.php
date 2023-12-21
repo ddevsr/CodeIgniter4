@@ -15,6 +15,9 @@ namespace CodeIgniter\Test;
 
 use CodeIgniter\HTTP\Response;
 use Config\App;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 
 /**
  * This test suite has been created separately from
@@ -23,29 +26,12 @@ use Config\App;
  * test cases need to be run as separate processes.
  *
  * @internal
- *
- * @group SeparateProcess
  */
+#[Group('SeparateProcess')]
 final class TestCaseEmissionsTest extends CIUnitTestCase
 {
-    /**
-     * These need to be run as a separate process, since phpunit
-     * has already captured the "normal" output, and we will get
-     * a "Cannot modify headers" message if we try to change
-     * headers or cookies now.
-     *
-     * Furthermore, these tests needs to flush the output buffering
-     * that might be in progress, and start our own output buffer
-     * capture.
-     *
-     * The tests includes a basic sanity check, to make sure that
-     * the body we thought would be sent actually was.
-     */
-
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testHeadersEmitted(): void
     {
         $response = new Response(new App());
@@ -70,10 +56,8 @@ final class TestCaseEmissionsTest extends CIUnitTestCase
         $this->assertHeaderEmitted('set-cookie: FOO=bar', true);
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testHeadersNotEmitted(): void
     {
         $response = new Response(new App());

@@ -172,7 +172,7 @@ class ImageMagickHandler extends BaseHandler
         $result = $this->process('-version');
 
         // The first line has the version in it...
-        preg_match('/(ImageMagick\s[\S]+)/', $result[0], $matches);
+        preg_match('/(ImageMagick\s[\S]+)/', (string) $result[0], $matches);
 
         return str_replace('ImageMagick ', '', $matches[0]);
     }
@@ -450,30 +450,15 @@ class ImageMagickHandler extends BaseHandler
     {
         $orientation = $this->getEXIF('Orientation', $silent);
 
-        switch ($orientation) {
-            case 2:
-                return $this->flip('horizontal');
-
-            case 3:
-                return $this->rotate(180);
-
-            case 4:
-                return $this->rotate(180)->flip('horizontal');
-
-            case 5:
-                return $this->rotate(90)->flip('horizontal');
-
-            case 6:
-                return $this->rotate(90);
-
-            case 7:
-                return $this->rotate(270)->flip('horizontal');
-
-            case 8:
-                return $this->rotate(270);
-
-            default:
-                return $this;
-        }
+        return match ($orientation) {
+            2       => $this->flip('horizontal'),
+            3       => $this->rotate(180),
+            4       => $this->rotate(180)->flip('horizontal'),
+            5       => $this->rotate(90)->flip('horizontal'),
+            6       => $this->rotate(90),
+            7       => $this->rotate(270)->flip('horizontal'),
+            8       => $this->rotate(270),
+            default => $this,
+        };
     }
 }

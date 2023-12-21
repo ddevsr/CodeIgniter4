@@ -238,13 +238,10 @@ class TestResponse
     // --------------------------------------------------------------------
     // Session
     // --------------------------------------------------------------------
-
     /**
      * Asserts that an SESSION key has been set and, optionally, test its value.
-     *
-     * @param mixed $value
      */
-    public function assertSessionHas(string $key, $value = null): void
+    public function assertSessionHas(string $key, mixed $value = null): void
     {
         Assert::assertArrayHasKey($key, $_SESSION, "Key '{$key}' is not in the current \$_SESSION");
 

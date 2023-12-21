@@ -22,12 +22,13 @@ use CodeIgniter\Test\Mock\MockCodeIgniter;
 use Config\App;
 use Config\Routing;
 use Config\Services;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
- * @group DatabaseLive
- *
  * @internal
  */
+#[Group('DatabaseLive')]
 final class FeatureTestTraitTest extends CIUnitTestCase
 {
     use FeatureTestTrait;
@@ -358,14 +359,8 @@ final class FeatureTestTraitTest extends CIUnitTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideOpenCliRoutesFromHttpGot404
-     *
-     * @param mixed $from
-     * @param mixed $to
-     * @param mixed $httpGet
-     */
-    public function testOpenCliRoutesFromHttpGot404($from, $to, $httpGet): void
+    #[DataProvider('provideOpenCliRoutesFromHttpGot404')]
+    public function testOpenCliRoutesFromHttpGot404(mixed $from, mixed $to, mixed $httpGet): void
     {
         $this->expectException(PageNotFoundException::class);
         $this->expectExceptionMessage('Cannot access CLI Route: ');

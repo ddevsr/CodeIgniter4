@@ -17,13 +17,13 @@ use CodeIgniter\Database\Database;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\Support\Database\Seeds\CITestSeeder;
 
 /**
- * @group DatabaseLive
- *
  * @internal
  */
+#[Group('DatabaseLive')]
 final class DbUtilsTest extends CIUnitTestCase
 {
     use DatabaseTestTrait;
@@ -185,7 +185,7 @@ final class DbUtilsTest extends CIUnitTestCase
 
         $data = $util->getCSVFromResult($data);
 
-        $data = array_filter(preg_split('/(\r\n|\n|\r)/', $data));
+        $data = array_filter(preg_split('/(\r\n|\n|\r)/', (string) $data));
 
         $this->assertSame('"1","Developer","Awesome job, but sometimes makes you bored","","",""', $data[1]);
     }

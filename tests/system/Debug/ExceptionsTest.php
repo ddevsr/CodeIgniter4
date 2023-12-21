@@ -20,13 +20,13 @@ use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\ReflectionHelper;
 use Config\Exceptions as ExceptionsConfig;
 use ErrorException;
+use PHPUnit\Framework\Attributes\Group;
 use RuntimeException;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class ExceptionsTest extends CIUnitTestCase
 {
     use ReflectionHelper;
@@ -74,7 +74,7 @@ final class ExceptionsTest extends CIUnitTestCase
             // We test DEPRECATED error, so cannot set `declare(strict_types=1)` in this file.
             strlen($maybeNull);
             $this->assertLogContains('error', '[DEPRECATED] strlen(): ');
-        } catch (ErrorException $e) {
+        } catch (ErrorException) {
             $this->fail('The catch block should not be reached.');
         } finally {
             restore_error_handler();
@@ -139,7 +139,7 @@ final class ExceptionsTest extends CIUnitTestCase
         $exception = new RuntimeException('This.');
 
         $renderedBacktrace = $renderer($exception->getTrace());
-        $renderedBacktrace = explode("\n", $renderedBacktrace);
+        $renderedBacktrace = explode("\n", (string) $renderedBacktrace);
 
         foreach ($renderedBacktrace as $trace) {
             $this->assertMatchesRegularExpression(

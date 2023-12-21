@@ -163,7 +163,7 @@ class Database extends BaseCollector
                 }
 
                 // find the first trace line that does not originate from `system/`
-                if ($firstNonSystemLine === '' && strpos($line['file'], 'SYSTEMPATH') === false) {
+                if ($firstNonSystemLine === '' && ! str_contains((string) $line['file'], 'SYSTEMPATH')) {
                     $firstNonSystemLine = $line['file'];
                 }
 
@@ -173,7 +173,7 @@ class Database extends BaseCollector
                     unset($line['class'], $line['type']);
                 }
 
-                if (strrpos($line['function'], '{closure}') === false) {
+                if (strrpos((string) $line['function'], '{closure}') === false) {
                     $line['function'] .= '()';
                 }
 

@@ -16,12 +16,12 @@ namespace CodeIgniter\Publisher;
 use CodeIgniter\Test\CIUnitTestCase;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class PublisherOutputTest extends CIUnitTestCase
 {
     /**

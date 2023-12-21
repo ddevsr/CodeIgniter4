@@ -337,12 +337,12 @@ class Parser extends View
                     }
 
                     if (is_object($val)) {
-                        $val = 'Class: ' . get_class($val);
+                        $val = 'Class: ' . $val::class;
                     } elseif (is_resource($val)) {
                         $val = 'Resource';
                     }
 
-                    $temp['#' . $this->leftDelimiter . '!?\s*' . preg_quote($key, '#') . '(?(?=\s*\|\s*)(\s*\|*\s*([|\w<>=\(\),:.\-\s\+\\\\/]+)*\s*))(\s*)!?' . $this->rightDelimiter . '#us'] = $val;
+                    $temp['#' . $this->leftDelimiter . '!?\s*' . preg_quote((string) $key, '#') . '(?(?=\s*\|\s*)(\s*\|*\s*([|\w<>=\(\),:.\-\s\+\\\\/]+)*\s*))(\s*)!?' . $this->rightDelimiter . '#us'] = $val;
                 }
 
                 // Now replace our placeholders with the new content.
@@ -467,7 +467,7 @@ class Parser extends View
 
         try {
             eval('?>' . $template . '<?php ');
-        } catch (ParseError $e) {
+        } catch (ParseError) {
             ob_end_clean();
 
             throw ViewException::forTagSyntaxError(str_replace(['?>', '<?php '], '', $template));
@@ -520,7 +520,7 @@ class Parser extends View
         return preg_replace_callback($pattern, function ($matches) use ($content, $escape) {
             // Check for {! !} syntax to not escape this one.
             if (
-                strpos($matches[0], $this->leftDelimiter . '!') === 0
+                str_starts_with($matches[0], $this->leftDelimiter . '!')
                 && substr($matches[0], -1 - strlen($this->rightDelimiter)) === '!' . $this->rightDelimiter
             ) {
                 $escape = false;
@@ -539,7 +539,7 @@ class Parser extends View
 
         // Our regex earlier will leave all chained values on a single line
         // so we need to break them apart so we can apply them all.
-        $filters = ! empty($matches[1]) ? explode('|', $matches[1]) : [];
+        $filters = ! empty($matches[1]) ? explode('|', (string) $matches[1]) : [];
 
         if ($escape && $filters === [] && ($context = $this->shouldAddEscaping($orig))) {
             $filters[] = "esc({$context})";
@@ -567,11 +567,11 @@ class Parser extends View
             }
         }
         // No pipes, then we know we need to escape
-        elseif (strpos($key, '|') === false) {
+        elseif (! str_contains($key, '|')) {
             $escape = 'html';
         }
         // If there's a `noescape` then we're definitely false.
-        elseif (strpos($key, 'noescape') !== false) {
+        elseif (str_contains($key, 'noescape')) {
             $escape = false;
         }
         // If no `esc` filter is found, then we'll need to add one.
@@ -591,7 +591,7 @@ class Parser extends View
         // Determine the requested filters
         foreach ($filters as $filter) {
             // Grab any parameter we might need to send
-            preg_match('/\([\w<>=\/\\\,:.\-\s\+]+\)/u', $filter, $param);
+            preg_match('/\([\w<>=\/\\\,:.\-\s\+]+\)/u', (string) $filter, $param);
 
             // Remove the () and spaces to we have just the parameter left
             $param = ! empty($param) ? trim($param[0], '() ') : null;
@@ -609,7 +609,7 @@ class Parser extends View
             }
 
             // Get our filter name
-            $filter = $param !== [] ? trim(strtolower(substr($filter, 0, strpos($filter, '(')))) : trim($filter);
+            $filter = $param !== [] ? trim(strtolower(substr((string) $filter, 0, strpos((string) $filter, '(')))) : trim((string) $filter);
 
             if (! array_key_exists($filter, $this->config->filters)) {
                 continue;
@@ -661,12 +661,12 @@ class Parser extends View
                 preg_match_all('/([\w-]+=\"[^"]+\")|([\w-]+=[^\"\s=]+)|(\"[^"]+\")|(\S+)/u', trim($match[1]), $matchesParams);
 
                 foreach ($matchesParams[0] as $item) {
-                    $keyVal = explode('=', $item);
+                    $keyVal = explode('=', (string) $item);
 
                     if (count($keyVal) === 2) {
                         $params[$keyVal[0]] = str_replace('"', '', $keyVal[1]);
                     } else {
-                        $params[] = str_replace('"', '', $item);
+                        $params[] = str_replace('"', '', (string) $item);
                     }
                 }
 

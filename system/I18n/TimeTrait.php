@@ -23,6 +23,7 @@ use Exception;
 use IntlCalendar;
 use IntlDateFormatter;
 use Locale;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use ReturnTypeWillChange;
 
 /**
@@ -288,9 +289,8 @@ trait TimeTrait
      * @throws Exception
      *
      * @deprecated         Use createFromInstance() instead
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public static function instance(DateTime $dateTime, ?string $locale = null)
     {
         return self::createFromInstance($dateTime, $locale);

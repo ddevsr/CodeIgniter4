@@ -79,7 +79,7 @@ trait RequestTrait
         // @TODO Extract all this IP address logic to another class.
         foreach ($proxyIPs as $proxyIP => $header) {
             // Check if we have an IP address or a subnet
-            if (strpos($proxyIP, '/') === false) {
+            if (! str_contains($proxyIP, '/')) {
                 // An IP address (and not a subnet) is specified.
                 // We can compare right away.
                 if ($proxyIP === $this->ipAddress) {
@@ -100,7 +100,7 @@ trait RequestTrait
             }
 
             // If the proxy entry doesn't match the IP protocol - skip it
-            if (strpos($proxyIP, $separator) === false) {
+            if (! str_contains($proxyIP, $separator)) {
                 continue;
             }
 
@@ -219,11 +219,10 @@ trait RequestTrait
      *
      * @param string $name Supergrlobal name (lowercase)
      * @phpstan-param 'get'|'post'|'request'|'cookie'|'server' $name
-     * @param mixed $value
      *
      * @return $this
      */
-    public function setGlobal(string $name, $value)
+    public function setGlobal(string $name, mixed $value)
     {
         $this->globals[$name] = $value;
 
@@ -287,7 +286,7 @@ trait RequestTrait
             $value = $this->globals[$name];
 
             for ($i = 0; $i < $count; $i++) {
-                $key = trim($matches[0][$i], '[]');
+                $key = trim((string) $matches[0][$i], '[]');
 
                 if ($key === '') { // Empty notation will return the value as array
                     break;

@@ -42,17 +42,20 @@ use Config\Services;
 use Config\Session as SessionConfig;
 use Exception;
 use Kint;
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use RuntimeException;
 use stdClass;
 use Tests\Support\Models\JobModel;
 
 /**
- * @backupGlobals enabled
- *
  * @internal
- *
- * @group SeparateProcess
  */
+#[BackupGlobals(true)]
+#[Group('SeparateProcess')]
 final class CommonFunctionsTest extends CIUnitTestCase
 {
     private ?App $config = null;
@@ -249,10 +252,8 @@ final class CommonFunctionsTest extends CIUnitTestCase
         esc('<script>', '0');
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testSessionInstance(): void
     {
         $this->injectSessionMock();
@@ -260,10 +261,8 @@ final class CommonFunctionsTest extends CIUnitTestCase
         $this->assertInstanceOf(Session::class, session());
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testSessionVariable(): void
     {
         $this->injectSessionMock();
@@ -273,10 +272,8 @@ final class CommonFunctionsTest extends CIUnitTestCase
         $this->assertSame('Hi there', session('notbogus'));
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testSessionVariableNotThere(): void
     {
         $this->injectSessionMock();
@@ -397,10 +394,8 @@ final class CommonFunctionsTest extends CIUnitTestCase
         $this->assertInstanceOf(JobModel::class, model(JobModel::class));
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testOldInput(): void
     {
         $this->injectSessionMock();
@@ -432,10 +427,8 @@ final class CommonFunctionsTest extends CIUnitTestCase
         $this->assertSame('fritz', old('zibble'));
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testOldInputSerializeData(): void
     {
         $this->injectSessionMock();
@@ -467,10 +460,9 @@ final class CommonFunctionsTest extends CIUnitTestCase
 
     /**
      * @see https://github.com/codeigniter4/CodeIgniter4/issues/1492
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
      */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testOldInputArray(): void
     {
         $this->injectSessionMock();
@@ -584,10 +576,8 @@ final class CommonFunctionsTest extends CIUnitTestCase
         $this->assertTrue($answer1->hasCookie('login_time'));
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testTrace(): void
     {
         ob_start();
@@ -607,10 +597,8 @@ final class CommonFunctionsTest extends CIUnitTestCase
         $this->assertStringContainsString('<h1>is_not</h1>', view('\Tests\Support\View\Views\simples'));
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testForceHttpsNullRequestAndResponse(): void
     {
         $this->assertNull(Services::response()->header('Location'));
@@ -656,13 +644,8 @@ final class CommonFunctionsTest extends CIUnitTestCase
         }
     }
 
-    /**
-     * @dataProvider provideCleanPathActuallyCleaningThePaths
-     *
-     * @param mixed $input
-     * @param mixed $expected
-     */
-    public function testCleanPathActuallyCleaningThePaths($input, $expected): void
+    #[DataProvider('provideCleanPathActuallyCleaningThePaths')]
+    public function testCleanPathActuallyCleaningThePaths(mixed $input, mixed $expected): void
     {
         $this->assertSame($expected, clean_path($input));
     }
@@ -723,10 +706,8 @@ final class CommonFunctionsTest extends CIUnitTestCase
         Kint::$cli_detection = $cliDetection;
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testTraceWithCSP(): void
     {
         $this->resetServices();
@@ -774,7 +755,7 @@ final class CommonFunctionsTest extends CIUnitTestCase
 
     public function testIsWindows(): void
     {
-        $this->assertSame(strpos(php_uname(), 'Windows') !== false, is_windows());
+        $this->assertSame(str_contains(php_uname(), 'Windows'), is_windows());
         $this->assertSame(defined('PHP_WINDOWS_VERSION_MAJOR'), is_windows());
     }
 
@@ -789,7 +770,7 @@ final class CommonFunctionsTest extends CIUnitTestCase
         $this->assertNotTrue(is_windows());
 
         is_windows(null);
-        $this->assertSame(strpos(php_uname(), 'Windows') !== false, is_windows());
+        $this->assertSame(str_contains(php_uname(), 'Windows'), is_windows());
         $this->assertSame(defined('PHP_WINDOWS_VERSION_MAJOR'), is_windows());
     }
 }

@@ -17,13 +17,13 @@ use CodeIgniter\CLI\CLI;
 use CodeIgniter\Events\Events;
 use CodeIgniter\HTTP\Response;
 use Config\App;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\Support\Test\TestForReflectionHelper;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class TestCaseTest extends CIUnitTestCase
 {
     use StreamFilterTrait;

@@ -21,12 +21,13 @@ use DateTime;
 use DateTimeZone;
 use IntlDateFormatter;
 use Locale;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class TimeTest extends CIUnitTestCase
 {
     private string $currentLocale;
@@ -308,14 +309,14 @@ final class TimeTest extends CIUnitTestCase
     {
         $time = Time::parse('January 1, 2016');
 
-        $this->assertTrue(isset($time->year));
+        $this->assertTrue(property_exists($time, 'year'));
     }
 
     public function testMagicIssetFalse(): void
     {
         $time = Time::parse('January 1, 2016');
 
-        $this->assertFalse(isset($time->foobar));
+        $this->assertFalse(property_exists($time, 'foobar'));
     }
 
     public function testGetYear(): void
@@ -1159,9 +1160,7 @@ final class TimeTest extends CIUnitTestCase
         $this->assertSame('2017-03-10T12:00:00+09:00', $now);
     }
 
-    /**
-     * @dataProvider provideToStringDoesNotDependOnLocale
-     */
+    #[DataProvider('provideToStringDoesNotDependOnLocale')]
     public function testToStringDoesNotDependOnLocale(string $locale): void
     {
         Locale::setDefault($locale);

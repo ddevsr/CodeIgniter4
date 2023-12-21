@@ -15,12 +15,12 @@ namespace CodeIgniter\I18n;
 
 use CodeIgniter\Test\CIUnitTestCase;
 use Locale;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class TimeDifferenceTest extends CIUnitTestCase
 {
     private string $currentLocale;
@@ -259,8 +259,8 @@ final class TimeDifferenceTest extends CIUnitTestCase
         $current = Time::parse('March 10, 2017', 'America/Chicago');
         $diff    = $current->difference('March 18, 2017', 'America/Chicago');
 
-        $this->assertTrue(isset($diff->days));
-        $this->assertFalse(isset($diff->nonsense));
+        $this->assertTrue(property_exists($diff, 'days'));
+        $this->assertFalse(property_exists($diff, 'nonsense'));
     }
 
     public function testMagicIssetFalse(): void
@@ -268,6 +268,6 @@ final class TimeDifferenceTest extends CIUnitTestCase
         $current = Time::parse('March 10, 2017', 'America/Chicago');
         $diff    = $current->difference('March 18, 2017', 'America/Chicago');
 
-        $this->assertFalse(isset($diff->nonsense));
+        $this->assertFalse(property_exists($diff, 'nonsense'));
     }
 }

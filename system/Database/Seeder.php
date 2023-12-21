@@ -18,6 +18,7 @@ use Config\Database;
 use Faker\Factory;
 use Faker\Generator;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 /**
  * Class Seeder
@@ -125,7 +126,7 @@ class Seeder
             throw new InvalidArgumentException('No seeder was specified.');
         }
 
-        if (strpos($class, '\\') === false) {
+        if (! str_contains($class, '\\')) {
             $path = $this->seedPath . str_replace('.php', '', $class) . '.php';
 
             if (! is_file($path)) {
@@ -184,9 +185,8 @@ class Seeder
      * of inserting their data here.
      *
      * @return mixed
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public function run()
     {
     }

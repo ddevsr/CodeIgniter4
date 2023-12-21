@@ -17,12 +17,12 @@ use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\StreamFilterTrait;
 use Config\App;
 use Config\Services;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class ConfigCheckTest extends CIUnitTestCase
 {
     use StreamFilterTrait;
@@ -82,7 +82,7 @@ final class ConfigCheckTest extends CIUnitTestCase
         $output = preg_replace(
             '/(\033\[[0-9;]+m)|(\035\[[0-9;]+m)/u',
             '',
-            $output
+            (string) $output
         );
 
         $this->assertStringContainsString(

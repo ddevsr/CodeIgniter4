@@ -13,11 +13,13 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Test;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class DOMParserTest extends CIUnitTestCase
 {
     protected function setUp(): void
@@ -90,12 +92,8 @@ final class DOMParserTest extends CIUnitTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideText
-     *
-     * @param mixed $text
-     */
-    public function testSeeText($text): void
+    #[DataProvider('provideText')]
+    public function testSeeText(mixed $text): void
     {
         $dom = new DOMParser();
 
@@ -138,12 +136,8 @@ final class DOMParserTest extends CIUnitTestCase
         $this->assertFalse($dom->see('Hello Worlds'));
     }
 
-    /**
-     * @dataProvider provideText
-     *
-     * @param mixed $text
-     */
-    public function testSeeElement($text): void
+    #[DataProvider('provideText')]
+    public function testSeeElement(mixed $text): void
     {
         $dom = new DOMParser();
 

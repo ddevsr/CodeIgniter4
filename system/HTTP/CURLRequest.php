@@ -17,6 +17,7 @@ use CodeIgniter\HTTP\Exceptions\HTTPException;
 use Config\App;
 use Config\CURLRequest as ConfigCURLRequest;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 /**
  * A lightweight HTTP client for sending synchronous HTTP requests via cURL.
@@ -89,17 +90,12 @@ class CURLRequest extends OutgoingRequest
     protected $delay = 0.0;
 
     /**
-     * The default options from the constructor. Applied to all requests.
-     */
-    private array $defaultOptions;
-
-    /**
      * Whether share options between requests or not.
      *
      * If true, all the options won't be reset between requests.
      * It may cause an error request with unnecessary headers.
      */
-    private bool $shareOptions;
+    private readonly bool $shareOptions;
 
     /**
      * Takes an array of options to set the following possible class properties:
@@ -108,7 +104,10 @@ class CURLRequest extends OutgoingRequest
      *  - timeout
      *  - any other request options to use as defaults.
      */
-    public function __construct(App $config, URI $uri, ?ResponseInterface $response = null, array $options = [])
+    public function __construct(App $config, URI $uri, ?ResponseInterface $response = null, /**
+     * The default options from the constructor. Applied to all requests.
+     */
+        private readonly array $defaultOptions = [])
     {
         if (! function_exists('curl_version')) {
             throw HTTPException::forMissingCurl(); // @codeCoverageIgnore
@@ -116,16 +115,15 @@ class CURLRequest extends OutgoingRequest
 
         parent::__construct(Method::GET, $uri);
 
-        $this->responseOrig   = $response ?? new Response(config(App::class));
-        $this->baseURI        = $uri->useRawQueryString();
-        $this->defaultOptions = $options;
+        $this->responseOrig = $response ?? new Response(config(App::class));
+        $this->baseURI      = $uri->useRawQueryString();
 
         /** @var ConfigCURLRequest|null $configCURLRequest */
         $configCURLRequest  = config(ConfigCURLRequest::class);
         $this->shareOptions = $configCURLRequest->shareOptions ?? true;
 
         $this->config = $this->defaultConfig;
-        $this->parseOptions($options);
+        $this->parseOptions($defaultOptions);
     }
 
     /**
@@ -325,7 +323,7 @@ class CURLRequest extends OutgoingRequest
     protected function prepareURL(string $url): string
     {
         // If it's a full URI, then we have nothing to do here...
-        if (strpos($url, '://') !== false) {
+        if (str_contains($url, '://')) {
             return $url;
         }
 
@@ -380,16 +378,16 @@ class CURLRequest extends OutgoingRequest
         // Set the string we want to break our response from
         $breakString = "\r\n\r\n";
 
-        if (strpos($output, 'HTTP/1.1 100 Continue') === 0) {
+        if (str_starts_with($output, 'HTTP/1.1 100 Continue')) {
             $output = substr($output, strpos($output, $breakString) + 4);
         }
 
-        if (strpos($output, 'HTTP/1.1 200 Connection established') === 0) {
+        if (str_starts_with($output, 'HTTP/1.1 200 Connection established')) {
             $output = substr($output, strpos($output, $breakString) + 4);
         }
 
         // If request and response have Digest
-        if (isset($this->config['auth'][2]) && $this->config['auth'][2] === 'digest' && strpos($output, 'WWW-Authenticate: Digest') !== false) {
+        if (isset($this->config['auth'][2]) && $this->config['auth'][2] === 'digest' && str_contains($output, 'WWW-Authenticate: Digest')) {
             $output = substr($output, strpos($output, $breakString) + 4);
         }
 
@@ -480,17 +478,17 @@ class CURLRequest extends OutgoingRequest
     protected function setResponseHeaders(array $headers = [])
     {
         foreach ($headers as $header) {
-            if (($pos = strpos($header, ':')) !== false) {
-                $title = trim(substr($header, 0, $pos));
-                $value = trim(substr($header, $pos + 1));
+            if (($pos = strpos((string) $header, ':')) !== false) {
+                $title = trim(substr((string) $header, 0, $pos));
+                $value = trim(substr((string) $header, $pos + 1));
 
                 if ($this->response instanceof Response) {
                     $this->response->addHeader($title, $value);
                 } else {
                     $this->response->setHeader($title, $value);
                 }
-            } elseif (strpos($header, 'HTTP') === 0) {
-                preg_match('#^HTTP\/([12](?:\.[01])?) (\d+) (.+)#', $header, $matches);
+            } elseif (str_starts_with((string) $header, 'HTTP')) {
+                preg_match('#^HTTP\/([12](?:\.[01])?) (\d+) (.+)#', (string) $header, $matches);
 
                 if (isset($matches[1])) {
                     $this->response->setProtocolVersion($matches[1]);
@@ -516,7 +514,7 @@ class CURLRequest extends OutgoingRequest
         if (! empty($config['auth'])) {
             $curlOptions[CURLOPT_USERPWD] = $config['auth'][0] . ':' . $config['auth'][1];
 
-            if (! empty($config['auth'][2]) && strtolower($config['auth'][2]) === 'digest') {
+            if (! empty($config['auth'][2]) && strtolower((string) $config['auth'][2]) === 'digest') {
                 $curlOptions[CURLOPT_HTTPAUTH] = CURLAUTH_DIGEST;
             } else {
                 $curlOptions[CURLOPT_HTTPAUTH] = CURLAUTH_BASIC;
@@ -602,7 +600,7 @@ class CURLRequest extends OutgoingRequest
                 $protocols = 0;
 
                 foreach ($settings['protocols'] as $proto) {
-                    $protocols += constant('CURLPROTO_' . strtoupper($proto));
+                    $protocols += constant('CURLPROTO_' . strtoupper((string) $proto));
                 }
 
                 $curlOptions[CURLOPT_REDIR_PROTOCOLS] = $protocols;
@@ -672,9 +670,8 @@ class CURLRequest extends OutgoingRequest
     /**
      * Does the actual work of initializing cURL, setting the options,
      * and grabbing the output.
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     protected function sendRequest(array $curlOptions = []): string
     {
         $ch = curl_init();

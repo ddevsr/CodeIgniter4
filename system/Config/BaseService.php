@@ -76,6 +76,7 @@ use Config\Services as AppServices;
 use Config\Toolbar as ConfigToolbar;
 use Config\Validation as ConfigValidation;
 use Config\View as ConfigView;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 /**
  * Services Configuration file.
@@ -327,9 +328,8 @@ class BaseService
      * @return object|null
      *
      * @deprecated
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     protected static function discoverServices(string $name, array $arguments)
     {
         if (! static::$discovered) {

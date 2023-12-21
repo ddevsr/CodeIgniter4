@@ -11,6 +11,17 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
+
+/**
+ * This file is part of CodeIgniter 4 framework.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 // This helper is autoloaded by CodeIgniter.
 
 if (! function_exists('dd')) {
@@ -19,12 +30,9 @@ if (! function_exists('dd')) {
          * Prints a Kint debug report and exits.
          *
          * @param array $vars
-         *
-         * @return never
-         *
-         * @codeCoverageIgnore Can't be tested ... exits
          */
-        function dd(...$vars)
+        #[CodeCoverageIgnore]
+        function dd(...$vars): never
         {
             // @codeCoverageIgnoreStart
             Kint::$aliases[] = 'dd';

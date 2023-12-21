@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace CodeIgniter\HTTP;
 
 use Config\App;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 /**
  * Representation of an incoming, server-side HTTP request.
@@ -57,9 +58,8 @@ class Request extends OutgoingRequest implements RequestInterface
      * @return $this
      *
      * @deprecated 4.0.5 Use withMethod() instead for immutability
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public function setMethod(string $method)
     {
         $this->method = $method;

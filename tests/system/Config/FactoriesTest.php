@@ -17,6 +17,8 @@ use CodeIgniter\Test\CIUnitTestCase;
 use Config\App;
 use Config\Database;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
 use ReflectionClass;
 use stdClass;
 use Tests\Support\Config\TestRegistrar;
@@ -28,9 +30,8 @@ use Tests\Support\Widgets\SomeWidget;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class FactoriesTest extends CIUnitTestCase
 {
     protected function setUp(): void
@@ -425,9 +426,7 @@ final class FactoriesTest extends CIUnitTestCase
         return $data;
     }
 
-    /**
-     * @depends testGetComponentInstances
-     */
+    #[Depends('testGetComponentInstances')]
     public function testSetComponentInstances(array $data)
     {
         $before = Factories::getComponentInstances('config');
@@ -444,9 +443,7 @@ final class FactoriesTest extends CIUnitTestCase
         return $data;
     }
 
-    /**
-     * @depends testSetComponentInstances
-     */
+    #[Depends('testSetComponentInstances')]
     public function testIsUpdated(array $data)
     {
         Factories::reset();

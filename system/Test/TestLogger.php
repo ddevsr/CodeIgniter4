@@ -70,7 +70,7 @@ class TestLogger extends Logger
         $lowerLevel = strtolower($level);
 
         foreach (self::$op_logs as $log) {
-            if (strtolower($log['level']) !== $lowerLevel) {
+            if (strtolower((string) $log['level']) !== $lowerLevel) {
                 continue;
             }
 
@@ -82,7 +82,7 @@ class TestLogger extends Logger
                 continue;
             }
 
-            if (strpos($log['message'], $message) !== false) {
+            if (str_contains((string) $log['message'], $message)) {
                 return true;
             }
         }

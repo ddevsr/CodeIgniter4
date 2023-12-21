@@ -223,7 +223,6 @@ abstract class CIUnitTestCase extends TestCase
     // --------------------------------------------------------------------
     // Staging
     // --------------------------------------------------------------------
-
     /**
      * Load the helpers.
      */
@@ -296,7 +295,6 @@ abstract class CIUnitTestCase extends TestCase
     // --------------------------------------------------------------------
     // Mocking
     // --------------------------------------------------------------------
-
     /**
      * Resets shared instanced for all Factories components
      */
@@ -345,7 +343,6 @@ abstract class CIUnitTestCase extends TestCase
     // --------------------------------------------------------------------
     // Assertions
     // --------------------------------------------------------------------
-
     /**
      * Custom function to hook into CodeIgniter's Logging mechanism
      * to check if certain messages were logged during code execution.
@@ -458,14 +455,11 @@ abstract class CIUnitTestCase extends TestCase
      * where the result is close but not exactly equal to the
      * expected time, for reasons beyond our control.
      *
-     * @param mixed $expected
-     * @param mixed $actual
-     *
      * @return bool|void
      *
      * @throws Exception
      */
-    public function assertCloseEnoughString($expected, $actual, string $message = '', int $tolerance = 1)
+    public function assertCloseEnoughString(mixed $expected, mixed $actual, string $message = '', int $tolerance = 1)
     {
         $expected = (string) $expected;
         $actual   = (string) $actual;
@@ -479,7 +473,7 @@ abstract class CIUnitTestCase extends TestCase
             $difference = abs($expected - $actual);
 
             $this->assertLessThanOrEqual($tolerance, $difference, $message);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
     }
@@ -487,7 +481,6 @@ abstract class CIUnitTestCase extends TestCase
     // --------------------------------------------------------------------
     // Utility
     // --------------------------------------------------------------------
-
     /**
      * Loads up an instance of CodeIgniter
      * and gets the environment setup.
@@ -516,8 +509,8 @@ abstract class CIUnitTestCase extends TestCase
 
         foreach (xdebug_get_headers() as $emittedHeader) {
             $found = $ignoreCase
-                ? (stripos($emittedHeader, $header) === 0)
-                : (strpos($emittedHeader, $header) === 0);
+                ? (stripos((string) $emittedHeader, $header) === 0)
+                : (str_starts_with((string) $emittedHeader, $header));
 
             if ($found) {
                 return $emittedHeader;

@@ -22,13 +22,14 @@ use CodeIgniter\Router\Exceptions\RouterException;
 use CodeIgniter\Test\CIUnitTestCase;
 use Config\Modules;
 use Config\Routing;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\Support\Filters\Customfilter;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class RouterTest extends CIUnitTestCase
 {
     private RouteCollection $collection;
@@ -889,9 +890,7 @@ final class RouterTest extends CIUnitTestCase
         $this->assertSame('', $router->directory());
     }
 
-    /**
-     * @dataProvider provideRedirectRoute
-     */
+    #[DataProvider('provideRedirectRoute')]
     public function testRedirectRoute(
         string $route,
         string $redirectFrom,

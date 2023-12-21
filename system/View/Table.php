@@ -338,7 +338,7 @@ class Table
         if (! empty($this->heading)) {
             $headerTag = null;
 
-            if (preg_match('/(<)(td|th)(?=\h|>)/i', $this->template['heading_cell_start'], $matches) === 1) {
+            if (preg_match('/(<)(td|th)(?=\h|>)/i', (string) $this->template['heading_cell_start'], $matches) === 1) {
                 $headerTag = $matches[0];
             }
 
@@ -349,7 +349,7 @@ class Table
 
                 foreach ($heading as $key => $val) {
                     if ($key !== 'data' && $headerTag !== null) {
-                        $temp = str_replace($headerTag, $headerTag . ' ' . $key . '="' . $val . '"', $temp);
+                        $temp = str_replace($headerTag, $headerTag . ' ' . $key . '="' . $val . '"', (string) $temp);
                     }
                 }
 
@@ -376,7 +376,7 @@ class Table
 
                     foreach ($cell as $key => $val) {
                         if ($key !== 'data') {
-                            $temp = str_replace('<td', '<td ' . $key . '="' . $val . '"', $temp);
+                            $temp = str_replace('<td', '<td ' . $key . '="' . $val . '"', (string) $temp);
                         }
                     }
 
@@ -404,7 +404,7 @@ class Table
         if (! empty($this->footing)) {
             $footerTag = null;
 
-            if (preg_match('/(<)(td|th)(?=\h|>)/i', $this->template['footing_cell_start'], $matches)) {
+            if (preg_match('/(<)(td|th)(?=\h|>)/i', (string) $this->template['footing_cell_start'], $matches)) {
                 $footerTag = $matches[0];
             }
 
@@ -415,7 +415,7 @@ class Table
 
                 foreach ($footing as $key => $val) {
                     if ($key !== 'data' && $footerTag !== null) {
-                        $temp = str_replace($footerTag, $footerTag . ' ' . $key . '="' . $val . '"', $temp);
+                        $temp = str_replace($footerTag, $footerTag . ' ' . $key . '="' . $val . '"', (string) $temp);
                     }
                 }
 

@@ -592,7 +592,7 @@ class CLI
         $newText = '';
 
         // Detect if color method was already in use with this text
-        if (strpos($text, "\033[0m") !== false) {
+        if (str_contains($text, "\033[0m")) {
             $pattern = '/\\033\\[0;.+?\\033\\[0m/u';
 
             preg_match_all($pattern, $text, $matches);
@@ -885,7 +885,7 @@ class CLI
         foreach ($args as $i => $arg) {
             // If there's no "-" at the beginning, then
             // this is probably an argument or an option value
-            if (mb_strpos($arg, '-') !== 0) {
+            if (mb_strpos((string) $arg, '-') !== 0) {
                 if ($optionValue) {
                     // We have already included this in the previous
                     // iteration, so reset this flag
@@ -898,10 +898,10 @@ class CLI
                 continue;
             }
 
-            $arg   = ltrim($arg, '-');
+            $arg   = ltrim((string) $arg, '-');
             $value = null;
 
-            if (isset($args[$i + 1]) && mb_strpos($args[$i + 1], '-') !== 0) {
+            if (isset($args[$i + 1]) && mb_strpos((string) $args[$i + 1], '-') !== 0) {
                 $value       = $args[$i + 1];
                 $optionValue = true;
             }
@@ -999,7 +999,7 @@ class CLI
                 continue;
             }
 
-            if (mb_strpos($value, ' ') !== false) {
+            if (mb_strpos((string) $value, ' ') !== false) {
                 $out .= "\"{$value}\" ";
             } elseif ($value !== null) {
                 $out .= "{$value} ";

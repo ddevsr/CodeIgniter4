@@ -25,6 +25,7 @@ use Config\Services;
 use DateTime;
 use DateTimeZone;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 /**
  * Response Trait
@@ -449,7 +450,7 @@ trait ResponseTrait
         if (
             $method === 'auto'
             && isset($_SERVER['SERVER_SOFTWARE'])
-            && strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false
+            && str_contains((string) $_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS')
         ) {
             $method = 'refresh';
         } elseif ($method !== 'refresh' && $code === null) {
@@ -473,15 +474,10 @@ trait ResponseTrait
             $code = 302;
         }
 
-        switch ($method) {
-            case 'refresh':
-                $this->setHeader('Refresh', '0;url=' . $uri);
-                break;
-
-            default:
-                $this->setHeader('Location', $uri);
-                break;
-        }
+        match ($method) {
+            'refresh' => $this->setHeader('Refresh', '0;url=' . $uri),
+            default   => $this->setHeader('Location', $uri),
+        };
 
         $this->setStatusCode($code);
 
@@ -695,9 +691,8 @@ trait ResponseTrait
 
     /**
      * Extracted call to `setrawcookie()` in order to run unit tests on it.
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     private function doSetRawCookie(string $name, string $value, array $options): void
     {
         setrawcookie($name, $value, $options);
@@ -705,9 +700,8 @@ trait ResponseTrait
 
     /**
      * Extracted call to `setcookie()` in order to run unit tests on it.
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     private function doSetCookie(string $name, string $value, array $options): void
     {
         setcookie($name, $value, $options);

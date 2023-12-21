@@ -17,13 +17,13 @@ use CodeIgniter\Database\Exceptions\DatabaseException;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
 use Config\Feature;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\Support\Database\Seeds\CITestSeeder;
 
 /**
- * @group DatabaseLive
- *
  * @internal
  */
+#[Group('DatabaseLive')]
 final class GetTest extends CIUnitTestCase
 {
     use DatabaseTestTrait;
@@ -262,7 +262,7 @@ final class GetTest extends CIUnitTestCase
             public $deleted_at;
         };
 
-        $user = $this->db->table('user')->get()->getRow(0, get_class($testClass));
+        $user = $this->db->table('user')->get()->getRow(0, $testClass::class);
 
         $this->assertSame('Derek Jones', $user->name);
     }

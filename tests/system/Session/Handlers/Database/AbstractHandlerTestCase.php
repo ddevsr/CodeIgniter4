@@ -86,7 +86,7 @@ abstract class AbstractHandlerTestCase extends CIUnitTestCase
             ->getWhere(['id' => 'ci_session:555556b43phsnnf8if6bo33b635e4444'])
             ->getRow();
 
-        $this->assertGreaterThan(time() - 100, strtotime($row->timestamp));
+        $this->assertGreaterThan(time() - 100, strtotime((string) $row->timestamp));
         $this->assertSame('1483201a66afd2bd671e4a67dc6ecf24', $this->getPrivateProperty($handler, 'fingerprint'));
     }
 
@@ -110,7 +110,7 @@ abstract class AbstractHandlerTestCase extends CIUnitTestCase
             ->getWhere(['id' => 'ci_session:1f5o06b43phsnnf8if6bo33b635e4p2o'])
             ->getRow();
 
-        $this->assertGreaterThan(time() - 100, strtotime($row->timestamp));
+        $this->assertGreaterThan(time() - 100, strtotime((string) $row->timestamp));
         $this->assertSame('1483201a66afd2bd671e4a67dc6ecf24', $this->getPrivateProperty($handler, 'fingerprint'));
     }
 

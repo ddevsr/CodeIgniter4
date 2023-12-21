@@ -123,7 +123,7 @@ class GDHandler extends BaseHandler
         if (function_exists('gd_info')) {
             $gdVersion = @gd_info();
 
-            return preg_replace('/\D/', '', $gdVersion['GD Version']);
+            return preg_replace('/\D/', '', (string) $gdVersion['GD Version']);
         }
 
         return false;
@@ -468,11 +468,11 @@ class GDHandler extends BaseHandler
         $color = $isShadow ? $options['shadowColor'] : $options['color'];
 
         // shorthand hex, #f00
-        if (strlen($color) === 3) {
-            $color = implode('', array_map('str_repeat', str_split($color), [2, 2, 2]));
+        if (strlen((string) $color) === 3) {
+            $color = implode('', array_map('str_repeat', str_split((string) $color), [2, 2, 2]));
         }
 
-        $color = str_split(substr($color, 0, 6), 2);
+        $color = str_split(substr((string) $color, 0, 6), 2);
         $color = imagecolorclosestalpha($src, hexdec($color[0]), hexdec($color[1]), hexdec($color[2]), $opacity);
 
         $xAxis = $isShadow ? $options['xShadow'] : $options['xAxis'];

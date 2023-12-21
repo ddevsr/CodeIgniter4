@@ -19,15 +19,15 @@ use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
 use Config\Database;
 use LogicException;
+use PHPUnit\Framework\Attributes\Group;
 use RuntimeException;
 use stdClass;
 use Tests\Support\Database\Seeds\CITestSeeder;
 
 /**
- * @group DatabaseLive
- *
  * @internal
  */
+#[Group('DatabaseLive')]
 final class ForgeTest extends CIUnitTestCase
 {
     use DatabaseTestTrait;
@@ -232,15 +232,15 @@ final class ForgeTest extends CIUnitTestCase
 
         $fieldsData = $this->db->getFieldData('forge_test_table');
         if ($this->db->DBDriver === 'MySQLi') {
-            $this->assertSame(strtolower($fieldsData[0]->type), 'bigint');
+            $this->assertSame(strtolower((string) $fieldsData[0]->type), 'bigint');
         } elseif ($this->db->DBDriver === 'Postgre') {
-            $this->assertSame(strtolower($fieldsData[0]->type), 'bigint');
+            $this->assertSame(strtolower((string) $fieldsData[0]->type), 'bigint');
         } elseif ($this->db->DBDriver === 'SQLite3') {
-            $this->assertSame(strtolower($fieldsData[0]->type), 'integer');
+            $this->assertSame(strtolower((string) $fieldsData[0]->type), 'integer');
         } elseif ($this->db->DBDriver === 'OCI8') {
-            $this->assertSame(strtolower($fieldsData[0]->type), 'number');
+            $this->assertSame(strtolower((string) $fieldsData[0]->type), 'number');
         } elseif ($this->db->DBDriver === 'SQLSRV') {
-            $this->assertSame(strtolower($fieldsData[0]->type), 'bigint');
+            $this->assertSame(strtolower((string) $fieldsData[0]->type), 'bigint');
         }
 
         $this->forge->dropTable('forge_test_table', true);
@@ -943,7 +943,7 @@ final class ForgeTest extends CIUnitTestCase
                 ],
             ];
 
-            if (version_compare($this->db->getVersion(), '8.0.17', '>=') && strpos($this->db->getVersion(), 'MariaDB') === false) {
+            if (version_compare($this->db->getVersion(), '8.0.17', '>=') && ! str_contains($this->db->getVersion(), 'MariaDB')) {
                 // As of MySQL 8.0.17, the display width attribute for integer data types
                 // is deprecated and is not reported back anymore.
                 // @see https://dev.mysql.com/doc/refman/8.0/en/numeric-type-attributes.html

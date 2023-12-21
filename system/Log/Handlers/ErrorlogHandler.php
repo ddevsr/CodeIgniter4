@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace CodeIgniter\Log\Handlers;
 
 use CodeIgniter\Log\Exceptions\LogException;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 /**
  * Log handler that writes to PHP's `error_log()`
@@ -27,12 +28,12 @@ class ErrorlogHandler extends BaseHandler
      * system logging mechanism or a file, depending on what the error_log
      * configuration directive is set to.
      */
-    public const TYPE_OS = 0;
+    final public const TYPE_OS = 0;
 
     /**
      * Message is sent directly to the SAPI logging handler.
      */
-    public const TYPE_SAPI = 4;
+    final public const TYPE_SAPI = 4;
 
     /**
      * Says where the error should go. Currently supported are
@@ -78,9 +79,8 @@ class ErrorlogHandler extends BaseHandler
 
     /**
      * Extracted call to `error_log()` in order to be tested.
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     protected function errorLog(string $message, int $messageType): bool
     {
         return error_log($message, $messageType);

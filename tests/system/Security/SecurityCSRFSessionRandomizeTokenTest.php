@@ -32,16 +32,16 @@ use Config\Cookie;
 use Config\Logger as LoggerConfig;
 use Config\Security as SecurityConfig;
 use Config\Session as SessionConfig;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
- * @runTestsInSeparateProcesses
- *
- * @preserveGlobalState disabled
- *
  * @internal
- *
- * @group SeparateProcess
  */
+#[PreserveGlobalState(false)]
+#[Group('SeparateProcess')]
+#[RunTestsInSeparateProcesses]
 final class SecurityCSRFSessionRandomizeTokenTest extends CIUnitTestCase
 {
     /**

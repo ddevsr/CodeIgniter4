@@ -31,13 +31,6 @@ use Config\Services;
 class Filters
 {
     /**
-     * The original config file
-     *
-     * @var FiltersConfig
-     */
-    protected $config;
-
-    /**
      * The active IncomingRequest or CLIRequest
      *
      * @var RequestInterface
@@ -107,9 +100,14 @@ class Filters
      *
      * @param FiltersConfig $config
      */
-    public function __construct($config, RequestInterface $request, ResponseInterface $response, ?Modules $modules = null)
-    {
-        $this->config  = $config;
+    public function __construct(/**
+     * The original config file
+     */
+        protected $config,
+        RequestInterface $request,
+        ResponseInterface $response,
+        ?Modules $modules = null
+    ) {
         $this->request = &$request;
         $this->setResponse($response);
 
@@ -194,7 +192,7 @@ class Filters
             $class = new $className();
 
             if (! $class instanceof FilterInterface) {
-                throw FilterException::forIncorrectInterface(get_class($class));
+                throw FilterException::forIncorrectInterface($class::class);
             }
 
             $result = $class->before(
@@ -232,7 +230,7 @@ class Filters
             $class = new $className();
 
             if (! $class instanceof FilterInterface) {
-                throw FilterException::forIncorrectInterface(get_class($class));
+                throw FilterException::forIncorrectInterface($class::class);
             }
 
             $result = $class->after(
@@ -507,7 +505,7 @@ class Filters
     {
         $arguments = [];
 
-        if (strpos($name, ':') !== false) {
+        if (str_contains($name, ':')) {
             [$name, $arguments] = explode(':', $name);
 
             $arguments = explode(',', $arguments);
@@ -839,7 +837,7 @@ class Filters
         // treat each path as pseudo-regex
         foreach ($paths as $path) {
             // need to escape path separators
-            $path = str_replace('/', '\/', trim($path, '/ '));
+            $path = str_replace('/', '\/', trim((string) $path, '/ '));
             // need to make pseudo wildcard real
             $path = strtolower(str_replace('*', '.*', $path));
 

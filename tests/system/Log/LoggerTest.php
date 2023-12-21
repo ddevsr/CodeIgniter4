@@ -18,14 +18,14 @@ use CodeIgniter\Log\Exceptions\LogException;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\Mock\MockLogger as LoggerConfig;
 use Exception;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\Support\Log\Handlers\TestHandler;
 use TypeError;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class LoggerTest extends CIUnitTestCase
 {
     public function testThrowsExceptionWithBadHandlerSettings(): void
@@ -205,7 +205,7 @@ final class LoggerTest extends CIUnitTestCase
 
         $logs = TestHandler::getLogs();
 
-        $this->assertGreaterThan(1, strpos($logs[0], $expected));
+        $this->assertGreaterThan(1, strpos((string) $logs[0], $expected));
     }
 
     public function testLogInterpolatesExceptions(): void
@@ -224,7 +224,7 @@ final class LoggerTest extends CIUnitTestCase
         $logs = TestHandler::getLogs();
 
         $this->assertCount(1, $logs);
-        $this->assertSame(0, strpos($logs[0], $expected));
+        $this->assertSame(0, strpos((string) $logs[0], $expected));
     }
 
     public function testEmergencyLogsCorrectly(): void

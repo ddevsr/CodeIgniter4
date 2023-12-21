@@ -98,7 +98,7 @@ class Table
 
         $prefix = $this->db->DBPrefix;
 
-        if (! empty($prefix) && strpos($table, $prefix) === 0) {
+        if (! empty($prefix) && str_starts_with($table, $prefix)) {
             $table = substr($table, strlen($prefix));
         }
 
@@ -169,7 +169,7 @@ class Table
         }
 
         foreach ($columns as $column) {
-            $column = trim($column);
+            $column = trim((string) $column);
             if (isset($this->fields[$column])) {
                 unset($this->fields[$column]);
             }
@@ -201,7 +201,7 @@ class Table
      */
     public function dropPrimaryKey(): Table
     {
-        $primaryIndexes = array_filter($this->keys, static fn ($index) => strtolower($index['type']) === 'primary');
+        $primaryIndexes = array_filter($this->keys, static fn ($index) => strtolower((string) $index['type']) === 'primary');
 
         foreach (array_keys($primaryIndexes) as $key) {
             unset($this->keys[$key]);
@@ -234,7 +234,7 @@ class Table
      */
     public function addPrimaryKey(array $fields): Table
     {
-        $primaryIndexes = array_filter($this->keys, static fn ($index) => strtolower($index['type']) === 'primary');
+        $primaryIndexes = array_filter($this->keys, static fn ($index) => strtolower((string) $index['type']) === 'primary');
 
         // if primary key already exists we can't add another one
         if ($primaryIndexes !== []) {
@@ -332,7 +332,7 @@ class Table
         foreach ($this->foreignKeys as $foreignKey) {
             $this->forge->addForeignKey(
                 $foreignKey->column_name,
-                trim($foreignKey->foreign_table_name, $this->db->DBPrefix),
+                trim((string) $foreignKey->foreign_table_name, $this->db->DBPrefix),
                 $foreignKey->foreign_column_name
             );
         }
@@ -408,11 +408,9 @@ class Table
      * Converts keys retrieved from the database to
      * the format needed to create later.
      *
-     * @param mixed $keys
-     *
      * @return mixed
      */
-    protected function formatKeys($keys)
+    protected function formatKeys(mixed $keys)
     {
         if (! is_array($keys)) {
             return $keys;
@@ -423,7 +421,7 @@ class Table
         foreach ($keys as $name => $key) {
             $return[strtolower($name)] = [
                 'fields' => $key->fields,
-                'type'   => strtolower($key->type),
+                'type'   => strtolower((string) $key->type),
             ];
         }
 

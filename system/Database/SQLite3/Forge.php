@@ -145,7 +145,7 @@ class Forge extends BaseForge
      */
     protected function _processColumn(array $field): string
     {
-        if ($field['type'] === 'TEXT' && strpos($field['length'], "('") === 0) {
+        if ($field['type'] === 'TEXT' && str_starts_with((string) $field['length'], "('")) {
             $field['type'] .= ' CHECK(' . $this->db->escapeIdentifiers($field['name'])
                 . ' IN ' . $field['length'] . ')';
         }
@@ -165,7 +165,7 @@ class Forge extends BaseForge
      */
     protected function _attributeType(array &$attributes)
     {
-        switch (strtoupper($attributes['TYPE'])) {
+        switch (strtoupper((string) $attributes['TYPE'])) {
             case 'ENUM':
             case 'SET':
                 $attributes['TYPE'] = 'TEXT';
@@ -186,7 +186,7 @@ class Forge extends BaseForge
     protected function _attributeAutoIncrement(array &$attributes, array &$field)
     {
         if (! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === true
-            && stripos($field['type'], 'int') !== false) {
+            && stripos((string) $field['type'], 'int') !== false) {
             $field['type']           = 'INTEGER PRIMARY KEY';
             $field['default']        = '';
             $field['null']           = '';

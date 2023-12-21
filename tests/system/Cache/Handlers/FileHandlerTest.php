@@ -17,12 +17,13 @@ use CodeIgniter\Cache\Exceptions\CacheException;
 use CodeIgniter\CLI\CLI;
 use CodeIgniter\I18n\Time;
 use Config\Cache;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class FileHandlerTest extends AbstractHandlerTest
 {
     private static string $directory = 'FileHandler';
@@ -310,12 +311,11 @@ final class FileHandlerTest extends AbstractHandlerTest
     }
 
     /**
-     * @dataProvider provideSaveMode
-     *
-     * permissions given on Windows are fixed to `0666`
-     *
      * @requires OS Linux|Darwin
      */
+    #[DataProvider('provideSaveMode
+
+permissions given on Windows are fixed to `0666`')]
     public function testSaveMode(int $int, string $string): void
     {
         // Initialize mode
@@ -379,7 +379,7 @@ final class FileHandlerTest extends AbstractHandlerTest
 final class BaseTestFileHandler extends FileHandler
 {
     private static string $directory = 'FileHandler';
-    private Cache $config;
+    private readonly Cache $config;
 
     public function __construct()
     {

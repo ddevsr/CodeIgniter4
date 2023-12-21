@@ -426,7 +426,7 @@ class MigrationRunner
         }
 
         foreach ($files as $file) {
-            $file = empty($this->path) ? $file : $this->path . str_replace($this->path, '', $file);
+            $file = empty($this->path) ? $file : $this->path . str_replace($this->path, '', (string) $file);
 
             if ($migration = $this->migrationFromFile($file, $namespace)) {
                 $migrations[] = $migration;
@@ -445,7 +445,7 @@ class MigrationRunner
      */
     protected function migrationFromFile(string $path, string $namespace)
     {
-        if (substr($path, -4) !== '.php') {
+        if (! str_ends_with($path, '.php')) {
             return false;
         }
 
@@ -551,7 +551,7 @@ class MigrationRunner
      */
     public function getObjectUid($object): string
     {
-        return preg_replace('/[^0-9]/', '', $object->version) . $object->class;
+        return preg_replace('/[^0-9]/', '', (string) $object->version) . $object->class;
     }
 
     /**

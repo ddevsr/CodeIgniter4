@@ -36,7 +36,7 @@ final class DotArrayFilter
             // See https://regex101.com/r/44Ipql/1
             $segments = preg_split(
                 '/(?<!\\\\)\./',
-                rtrim($index, '* '),
+                rtrim((string) $index, '* '),
                 0,
                 PREG_SPLIT_NO_EMPTY
             );

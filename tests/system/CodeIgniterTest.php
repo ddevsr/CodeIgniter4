@@ -28,18 +28,19 @@ use Config\Cache;
 use Config\Filters as FiltersConfig;
 use Config\Modules;
 use Config\Routing;
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Tests\Support\Filters\Customfilter;
 use Tests\Support\Filters\RedirectFilter;
 
 /**
- * @runTestsInSeparateProcesses
- *
- * @backupGlobals enabled
- *
  * @internal
- *
- * @group Others
  */
+#[BackupGlobals(true)]
+#[Group('Others')]
+#[RunTestsInSeparateProcesses]
 final class CodeIgniterTest extends CIUnitTestCase
 {
     private CodeIgniter $codeigniter;
@@ -600,7 +601,7 @@ final class CodeIgniterTest extends CIUnitTestCase
 
         // Inject mock router.
         $routes = Services::routes();
-        $routes->get('/', static function () {
+        $routes->get('/', static function (): never {
             throw new RedirectException('redirect-exception', 503);
         });
 
@@ -830,10 +831,9 @@ final class CodeIgniterTest extends CIUnitTestCase
     /**
      * @param array|bool $cacheQueryStringValue
      *
-     * @dataProvider providePageCacheWithCacheQueryString
-     *
      * @see https://github.com/codeigniter4/CodeIgniter4/pull/6410
      */
+    #[DataProvider('providePageCacheWithCacheQueryString')]
     public function testPageCacheWithCacheQueryString(
         $cacheQueryStringValue,
         int $expectedPagesInCache,
@@ -863,7 +863,7 @@ final class CodeIgniterTest extends CIUnitTestCase
             $this->codeigniter      = new MockCodeIgniter(new App());
 
             $routes    = Services::routes(true);
-            $routePath = explode('?', $testingUrl)[0];
+            $routePath = explode('?', (string) $testingUrl)[0];
             $string    = 'This is a test page, to check cache configuration';
             $routes->add($routePath, static function () use ($string) {
                 Services::responsecache()->setTtl(60);

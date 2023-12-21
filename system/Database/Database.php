@@ -46,7 +46,7 @@ class Database
             throw new InvalidArgumentException('You must supply the parameter: alias.');
         }
 
-        if (! empty($params['DSN']) && strpos($params['DSN'], '://') !== false) {
+        if (! empty($params['DSN']) && str_contains((string) $params['DSN'], '://')) {
             $params = $this->parseDSN($params);
         }
 
@@ -90,7 +90,7 @@ class Database
      */
     protected function parseDSN(array $params): array
     {
-        $dsn = parse_url($params['DSN']);
+        $dsn = parse_url((string) $params['DSN']);
 
         if (! $dsn) {
             throw new InvalidArgumentException('Your DSN connection string is invalid.');
@@ -132,7 +132,7 @@ class Database
      */
     protected function initDriver(string $driver, string $class, $argument): object
     {
-        $classname = (strpos($driver, '\\') === false)
+        $classname = (! str_contains($driver, '\\'))
             ? "CodeIgniter\\Database\\{$driver}\\{$class}"
             : $driver . '\\' . $class;
 

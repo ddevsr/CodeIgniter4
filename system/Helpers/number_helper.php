@@ -11,6 +11,39 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+/**
+ * This file is part of CodeIgniter 4 framework.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 // CodeIgniter Number Helpers
 
 if (! function_exists('number_to_size')) {
@@ -27,7 +60,7 @@ if (! function_exists('number_to_size')) {
         try {
             // @phpstan-ignore-next-line
             $num = 0 + str_replace(',', '', (string) $num);
-        } catch (ErrorException $ee) {
+        } catch (ErrorException) {
             // Catch "Warning:  A non-numeric value encountered"
             return false;
         }
@@ -82,7 +115,7 @@ if (! function_exists('number_to_amount')) {
         try {
             // @phpstan-ignore-next-line
             $num = 0 + str_replace(',', '', $num);
-        } catch (ErrorException $ee) {
+        } catch (ErrorException) {
             return false;
         }
 
@@ -209,7 +242,7 @@ if (! function_exists('number_to_roman')) {
 
         foreach ($map as $roman => $arabic) {
             $repeat = (int) floor($num / $arabic);
-            $result .= str_repeat($roman, $repeat);
+            $result .= str_repeat((string) $roman, $repeat);
             $num %= $arabic;
         }
 

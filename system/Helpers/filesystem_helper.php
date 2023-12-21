@@ -11,6 +11,85 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+/**
+ * This file is part of CodeIgniter 4 framework.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 // CodeIgniter File System Helpers
 
 if (! function_exists('directory_map')) {
@@ -55,7 +134,7 @@ if (! function_exists('directory_map')) {
             closedir($fp);
 
             return $fileData;
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             return [];
         }
     }
@@ -131,7 +210,7 @@ if (! function_exists('write_file')) {
             fclose($fp);
 
             return is_int($result);
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             return false;
         }
     }
@@ -166,7 +245,7 @@ if (! function_exists('delete_files')) {
                     continue;
                 }
 
-                if (! $htdocs || ! preg_match('/^(\.htaccess|index\.(html|htm|php)|web\.config)$/i', $filename)) {
+                if (! $htdocs || ! preg_match('/^(\.htaccess|index\.(html|htm|php)|web\.config)$/i', (string) $filename)) {
                     $isDir = $object->isDir();
                     if ($isDir && $delDir) {
                         rmdir($object->getPathname());
@@ -180,7 +259,7 @@ if (! function_exists('delete_files')) {
             }
 
             return true;
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             return false;
         }
     }
@@ -214,7 +293,7 @@ if (! function_exists('get_filenames')) {
                 new RecursiveDirectoryIterator($sourceDir, RecursiveDirectoryIterator::SKIP_DOTS | FilesystemIterator::FOLLOW_SYMLINKS),
                 RecursiveIteratorIterator::SELF_FIRST
             ) as $name => $object) {
-                $basename = pathinfo($name, PATHINFO_BASENAME);
+                $basename = pathinfo((string) $name, PATHINFO_BASENAME);
                 if (! $hidden && $basename[0] === '.') {
                     continue;
                 }
@@ -223,13 +302,13 @@ if (! function_exists('get_filenames')) {
                     if ($includePath === false) {
                         $files[] = $basename;
                     } elseif ($includePath === null) {
-                        $files[] = str_replace($sourceDir, '', $name);
+                        $files[] = str_replace($sourceDir, '', (string) $name);
                     } else {
                         $files[] = $name;
                     }
                 }
             }
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             return [];
         }
 
@@ -279,7 +358,7 @@ if (! function_exists('get_dir_file_info')) {
             closedir($fp);
 
             return $fileData;
-        } catch (Throwable $fe) {
+        } catch (Throwable) {
             return [];
         }
     }

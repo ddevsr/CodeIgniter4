@@ -32,12 +32,12 @@ abstract class BaseHandler implements CacheInterface
      *
      * @deprecated in favor of the Cache config
      */
-    public const RESERVED_CHARACTERS = '{}()/\@:';
+    final public const RESERVED_CHARACTERS = '{}()/\@:';
 
     /**
      * Maximum key length.
      */
-    public const MAX_KEY_LENGTH = PHP_INT_MAX;
+    final public const MAX_KEY_LENGTH = PHP_INT_MAX;
 
     /**
      * Prefix to apply to cache keys.

@@ -16,6 +16,7 @@ namespace CodeIgniter\View\Cells;
 use CodeIgniter\Traits\PropertiesTrait;
 use LogicException;
 use ReflectionClass;
+use Stringable;
 
 /**
  * Class Cell
@@ -26,7 +27,7 @@ use ReflectionClass;
  *
  * @function mount()
  */
-class Cell
+class Cell implements Stringable
 {
     use PropertiesTrait;
 
@@ -142,7 +143,7 @@ class Cell
                 continue;
             }
 
-            $computedMethod = 'get' . ucfirst($name) . 'Property';
+            $computedMethod = 'get' . ucfirst((string) $name) . 'Property';
 
             if (method_exists($this, $computedMethod)) {
                 $properties[$name] = $this->{$computedMethod}();

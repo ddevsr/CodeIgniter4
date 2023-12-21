@@ -11,6 +11,59 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+/**
+ * This file is part of CodeIgniter 4 framework.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 use Config\ForeignCharacters;
 
 // CodeIgniter Text Helpers
@@ -187,7 +240,7 @@ if (! function_exists('word_censor')) {
         $delim = '[-_\'\"`(){}<>\[\]|!?@#%&,.:;^~*+=\/ 0-9\n\r\t]';
 
         foreach ($censored as $badword) {
-            $badword = str_replace('\*', '\w*?', preg_quote($badword, '/'));
+            $badword = str_replace('\*', '\w*?', preg_quote((string) $badword, '/'));
 
             if ($replacement !== '') {
                 $str = preg_replace(
@@ -322,7 +375,7 @@ if (! function_exists('convert_accented_characters')) {
             unset($config);
         }
 
-        return preg_replace($arrayFrom, $arrayTo, $str);
+        return preg_replace($arrayFrom, (string) $arrayTo, $str);
     }
 }
 
@@ -343,7 +396,7 @@ if (! function_exists('word_wrap')) {
         $str = preg_replace('| +|', ' ', $str);
 
         // Standardize newlines
-        if (strpos($str, "\r") !== false) {
+        if (str_contains($str, "\r")) {
             $str = str_replace(["\r\n", "\r"], "\n", $str);
         }
 

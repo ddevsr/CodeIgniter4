@@ -311,7 +311,7 @@ trait GeneratorTrait
             '\\'
         ) . '\\';
 
-        if (strncmp($class, $namespace, strlen($namespace)) === 0) {
+        if (str_starts_with($class, $namespace)) {
             return $class; // @codeCoverageIgnore
         }
 
@@ -383,14 +383,14 @@ trait GeneratorTrait
             $this->sortImports
             && preg_match(
                 '/(?P<imports>(?:^use [^;]+;$\n?)+)/m',
-                $template,
+                (string) $template,
                 $match
             )
         ) {
             $imports = explode("\n", trim($match['imports']));
             sort($imports);
 
-            return str_replace(trim($match['imports']), implode("\n", $imports), $template);
+            return str_replace(trim($match['imports']), implode("\n", $imports), (string) $template);
         }
 
         return $template;

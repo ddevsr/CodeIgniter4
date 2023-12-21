@@ -17,12 +17,12 @@ use CodeIgniter\Router\RouteCollection;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\StreamFilterTrait;
 use Config\Services;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class RoutesTest extends CIUnitTestCase
 {
     use StreamFilterTrait;
@@ -85,7 +85,7 @@ final class RoutesTest extends CIUnitTestCase
             EOL;
         $this->assertStringContainsString(
             $expected,
-            preg_replace('/\033\[.+?m/u', '', $this->getBuffer())
+            preg_replace('/\033\[.+?m/u', '', (string) $this->getBuffer())
         );
     }
 

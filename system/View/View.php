@@ -193,7 +193,7 @@ class View implements RendererInterface
         if (isset($this->renderVars['options']['cache'])) {
             $cacheName = $this->renderVars['options']['cache_name']
                 ?? str_replace('.php', '', $this->renderVars['view']);
-            $cacheName = str_replace(['\\', '/'], '', $cacheName);
+            $cacheName = str_replace(['\\', '/'], '', (string) $cacheName);
 
             $this->renderVars['cacheName'] = $cacheName;
 

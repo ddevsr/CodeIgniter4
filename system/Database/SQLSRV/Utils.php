@@ -45,10 +45,8 @@ class Utils extends BaseUtils
 
     /**
      * Platform dependent version of the backup function.
-     *
-     * @return never
      */
-    public function _backup(?array $prefs = null)
+    public function _backup(?array $prefs = null): never
     {
         throw new DatabaseException('Unsupported feature of the database platform you are using.');
     }

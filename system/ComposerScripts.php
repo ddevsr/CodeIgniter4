@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace CodeIgniter;
 
 use FilesystemIterator;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
@@ -24,10 +25,9 @@ use SplFileInfo;
  * do not need to use Composer to install a package, but can simply
  * download.
  *
- * @codeCoverageIgnore
- *
  * @internal
  */
+#[CodeCoverageIgnore]
 final class ComposerScripts
 {
     /**
@@ -73,7 +73,7 @@ final class ComposerScripts
 
         foreach (self::$dependencies as $key => $dependency) {
             // Kint may be removed.
-            if (! is_dir($dependency['from']) && strpos($key, 'kint') === 0) {
+            if (! is_dir($dependency['from']) && str_starts_with($key, 'kint')) {
                 continue;
             }
 

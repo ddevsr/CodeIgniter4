@@ -16,13 +16,14 @@ namespace CodeIgniter\Database;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\Mock\MockConnection;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Throwable;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class BaseConnectionTest extends CIUnitTestCase
 {
     private array $options = [
@@ -141,14 +142,14 @@ final class BaseConnectionTest extends CIUnitTestCase
     {
         $db = new MockConnection($this->options);
 
-        $this->assertTrue(isset($db->charset));
+        $this->assertTrue(property_exists($db, 'charset'));
     }
 
     public function testMagicIssetFalse(): void
     {
         $db = new MockConnection($this->options);
 
-        $this->assertFalse(isset($db->foobar));
+        $this->assertFalse(property_exists($db, 'foobar'));
     }
 
     public function testMagicGet(): void
@@ -168,9 +169,8 @@ final class BaseConnectionTest extends CIUnitTestCase
     /**
      * These tests are intended to confirm the current behavior.
      * We do not know if all of these are the correct behavior.
-     *
-     * @dataProvider provideProtectIdentifiers
      */
+    #[DataProvider('provideProtectIdentifiers')]
     public function testProtectIdentifiers(
         bool $prefixSingle,
         bool $protectIdentifiers,

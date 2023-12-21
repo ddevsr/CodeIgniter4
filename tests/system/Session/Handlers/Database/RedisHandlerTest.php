@@ -16,14 +16,14 @@ namespace CodeIgniter\Session\Handlers\Database;
 use CodeIgniter\Session\Handlers\RedisHandler;
 use CodeIgniter\Test\CIUnitTestCase;
 use Config\Session as SessionConfig;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
- * @group DatabaseLive
- *
  * @requires extension redis
  *
  * @internal
  */
+#[Group('DatabaseLive')]
 final class RedisHandlerTest extends CIUnitTestCase
 {
     private string $sessionDriver   = RedisHandler::class;

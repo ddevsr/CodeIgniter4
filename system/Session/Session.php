@@ -18,6 +18,7 @@ use CodeIgniter\I18n\Time;
 use Config\Cookie as CookieConfig;
 use Config\Services;
 use Config\Session as SessionConfig;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use Psr\Log\LoggerAwareTrait;
 use SessionHandlerInterface;
 
@@ -173,20 +174,16 @@ class Session implements SessionInterface
     protected $sidRegexp;
 
     /**
-     * Session Config
-     */
-    protected SessionConfig $config;
-
-    /**
      * Constructor.
      *
      * Extract configuration settings and save them here.
      */
-    public function __construct(SessionHandlerInterface $driver, SessionConfig $config)
+    public function __construct(SessionHandlerInterface $driver, /**
+     * Session Config
+     */
+        protected SessionConfig $config)
     {
         $this->driver = $driver;
-
-        $this->config = $config;
 
         $cookie = config(CookieConfig::class);
 
@@ -243,7 +240,7 @@ class Session implements SessionInterface
         $this->startSession();
 
         // Is session ID auto-regeneration configured? (ignoring ajax requests)
-        if ((empty($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest')
+        if ((empty($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower((string) $_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest')
             && ($regenerateTime = $this->config->timeToUpdate) > 0
         ) {
             if (! isset($_SESSION['__ci_last_regenerate'])) {
@@ -923,9 +920,8 @@ class Session implements SessionInterface
 
     /**
      * Takes care of setting the cookie on the client side.
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     protected function setCookie()
     {
         $expiration   = $this->config->expiration === 0 ? 0 : Time::now()->getTimestamp() + $this->config->expiration;

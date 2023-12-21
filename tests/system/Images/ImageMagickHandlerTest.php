@@ -19,6 +19,7 @@ use CodeIgniter\Images\Handlers\BaseHandler;
 use CodeIgniter\Test\CIUnitTestCase;
 use Config\Images;
 use Imagick;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Unit testing for the ImageMagick image handler.
@@ -30,9 +31,8 @@ use Imagick;
  * Was unable to test fontPath & related logic.
  *
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class ImageMagickHandlerTest extends CIUnitTestCase
 {
     private string $root;

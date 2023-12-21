@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace CodeIgniter\HTTP\Exceptions;
 
 use CodeIgniter\Exceptions\FrameworkException;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 /**
  * Things that can go wrong with HTTP
@@ -24,9 +25,8 @@ class HTTPException extends FrameworkException
      * For CurlRequest
      *
      * @return HTTPException
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public static function forMissingCurl()
     {
         return new static(lang('HTTP.missingCurl'));
@@ -56,9 +56,8 @@ class HTTPException extends FrameworkException
      * For CurlRequest
      *
      * @return HTTPException
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public static function forCurlError(string $errorNum, string $error)
     {
         return new static(lang('HTTP.curlError', [$errorNum, $error]));
@@ -223,9 +222,8 @@ class HTTPException extends FrameworkException
      * @return HTTPException
      *
      * @deprecated Use `CookieException::forInvalidSameSite()` instead.
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public static function forInvalidSameSiteSetting(string $samesite)
     {
         return new static(lang('Security.invalidSameSiteSetting', [$samesite]));

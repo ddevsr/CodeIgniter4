@@ -30,7 +30,7 @@ class ChromeLoggerHandler extends BaseHandler
     /**
      * Version of this library - for ChromeLogger use.
      */
-    public const VERSION = 1.0;
+    final public const VERSION = 1.0;
 
     /**
      * The number of track frames returned from the backtrace.
@@ -144,7 +144,7 @@ class ChromeLoggerHandler extends BaseHandler
         // @todo Modify formatting of objects once we can view them in browser.
         $objectArray = (array) $object;
 
-        $objectArray['___class_name'] = get_class($object);
+        $objectArray['___class_name'] = $object::class;
 
         return $objectArray;
     }

@@ -660,7 +660,7 @@ class Email
     public function attach($file, $disposition = '', $newname = null, $mime = '')
     {
         if ($mime === '') {
-            if (strpos($file, '://') === false && ! is_file($file)) {
+            if (! str_contains($file, '://') && ! is_file($file)) {
                 $this->setErrorMessage(lang('Email.attachmentMissing', [$file]));
 
                 return false;
@@ -740,7 +740,7 @@ class Email
     protected function stringToArray($email)
     {
         if (! is_array($email)) {
-            return (strpos($email, ',') !== false) ? preg_split('/[\s,]/', $email, -1, PREG_SPLIT_NO_EMPTY) : (array) trim($email);
+            return (str_contains($email, ',')) ? preg_split('/[\s,]/', $email, -1, PREG_SPLIT_NO_EMPTY) : (array) trim($email);
         }
 
         return $email;
@@ -835,7 +835,7 @@ class Email
      */
     protected function getMessageID()
     {
-        $from = str_replace(['>', '<'], '', $this->headers['Return-Path']);
+        $from = str_replace(['>', '<'], '', (string) $this->headers['Return-Path']);
 
         return '<' . uniqid('', true) . strstr($from, '@') . '>';
     }
@@ -864,7 +864,7 @@ class Email
         }
 
         foreach ($this->baseCharsets as $charset) {
-            if (strpos($this->charset, $charset) === 0) {
+            if (str_starts_with($this->charset, $charset)) {
                 $this->encoding = '7bit';
 
                 break;
@@ -966,7 +966,7 @@ class Email
         $cleanEmail = [];
 
         foreach ($email as $addy) {
-            $cleanEmail[] = preg_match('/\<(.*)\>/', $addy, $match) ? $match[1] : $addy;
+            $cleanEmail[] = preg_match('/\<(.*)\>/', (string) $addy, $match) ? $match[1] : $addy;
         }
 
         return $cleanEmail;
@@ -1013,7 +1013,7 @@ class Email
             $charlim = empty($this->wrapChars) ? 76 : $this->wrapChars;
         }
 
-        if (strpos($str, "\r") !== false) {
+        if (str_contains($str, "\r")) {
             $str = str_replace(["\r\n", "\r"], "\n", $str);
         }
 
@@ -1099,7 +1099,7 @@ class Email
         $this->headerStr = '';
 
         foreach ($this->headers as $key => $val) {
-            $val = trim($val);
+            $val = trim((string) $val);
 
             if ($val !== '') {
                 $this->headerStr .= $key . ': ' . $val . $this->newline;
@@ -1256,11 +1256,9 @@ class Email
     }
 
     /**
-     * @param mixed $type
-     *
      * @return bool
      */
-    protected function attachmentsHaveMultipart($type)
+    protected function attachmentsHaveMultipart(mixed $type)
     {
         foreach ($this->attachments as &$attachment) {
             if ($attachment['multipart'] === $type) {
@@ -1285,7 +1283,7 @@ class Email
                 continue;
             }
 
-            $name = $attachment['name'][1] ?? basename($attachment['name'][0]);
+            $name = $attachment['name'][1] ?? basename((string) $attachment['name'][0]);
             $body .= '--' . $boundary . $this->newline
                 . 'Content-Type: ' . $attachment['type'] . '; name="' . $name . '"' . $this->newline
                 . 'Content-Disposition: ' . $attachment['disposition'] . ';' . $this->newline
@@ -1411,7 +1409,7 @@ class Email
         $str = preg_replace(['| +|', '/\x00+/'], [' ', ''], $str);
 
         // Standardize newlines
-        if (strpos($str, "\r") !== false) {
+        if (str_contains($str, "\r")) {
             $str = str_replace(["\r\n", "\r"], "\n", $str);
         }
 
@@ -1646,10 +1644,7 @@ class Email
     {
         $this->finalBody = preg_replace_callback(
             '/\{unwrap\}(.*?)\{\/unwrap\}/si',
-            [
-                $this,
-                'removeNLCallback',
-            ],
+            $this->removeNLCallback(...),
             $this->finalBody
         );
     }
@@ -1663,7 +1658,7 @@ class Email
      */
     protected function removeNLCallback($matches)
     {
-        if (strpos($matches[1], "\r") !== false || strpos($matches[1], "\n") !== false) {
+        if (str_contains($matches[1], "\r") || str_contains($matches[1], "\n")) {
             $matches[1] = str_replace(["\r\n", "\r", "\n"], '', $matches[1]);
         }
 
@@ -1844,7 +1839,7 @@ class Email
         $this->setErrorMessage($reply);
         $this->SMTPEnd();
 
-        if (strpos($reply, '250') !== 0) {
+        if (! str_starts_with($reply, '250')) {
             $this->setErrorMessage(lang('Email.SMTPError', [$reply]));
 
             return false;
@@ -2016,11 +2011,11 @@ class Email
         $this->sendData('AUTH LOGIN');
         $reply = $this->getSMTPData();
 
-        if (strpos($reply, '503') === 0) {    // Already authenticated
+        if (str_starts_with($reply, '503')) {    // Already authenticated
             return true;
         }
 
-        if (strpos($reply, '334') !== 0) {
+        if (! str_starts_with($reply, '334')) {
             $this->setErrorMessage(lang('Email.failedSMTPLogin', [$reply]));
 
             return false;
@@ -2029,7 +2024,7 @@ class Email
         $this->sendData(base64_encode($this->SMTPUser));
         $reply = $this->getSMTPData();
 
-        if (strpos($reply, '334') !== 0) {
+        if (! str_starts_with($reply, '334')) {
             $this->setErrorMessage(lang('Email.SMTPAuthUsername', [$reply]));
 
             return false;
@@ -2038,7 +2033,7 @@ class Email
         $this->sendData(base64_encode($this->SMTPPass));
         $reply = $this->getSMTPData();
 
-        if (strpos($reply, '235') !== 0) {
+        if (! str_starts_with($reply, '235')) {
             $this->setErrorMessage(lang('Email.SMTPAuthPassword', [$reply]));
 
             return false;

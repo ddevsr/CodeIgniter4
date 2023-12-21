@@ -14,12 +14,12 @@ declare(strict_types=1);
 namespace CodeIgniter\Test\Mock;
 
 use Config\Security;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 /**
  * @deprecated
- *
- * @codeCoverageIgnore
  */
+#[CodeCoverageIgnore]
 class MockSecurityConfig extends Security
 {
     public string $tokenName  = 'csrf_test_name';

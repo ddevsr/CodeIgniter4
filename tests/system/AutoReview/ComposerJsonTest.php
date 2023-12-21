@@ -15,15 +15,15 @@ namespace CodeIgniter\AutoReview;
 
 use InvalidArgumentException;
 use JsonException;
+use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- *
- * @coversNothing
- *
- * @group AutoReview
  */
+#[Group('AutoReview')]
+#[CoversNothing]
 final class ComposerJsonTest extends TestCase
 {
     private array $devComposer;
@@ -92,18 +92,11 @@ final class ComposerJsonTest extends TestCase
 
     private function checkSection(string $section, string $component): void
     {
-        switch (strtolower($component)) {
-            case 'framework':
-                $sectionContent = $this->frameworkComposer[$section] ?? null;
-                break;
-
-            case 'starter':
-                $sectionContent = $this->starterComposer[$section] ?? null;
-                break;
-
-            default:
-                throw new InvalidArgumentException(sprintf('Unknown component: %s.', $component));
-        }
+        $sectionContent = match (strtolower($component)) {
+            'framework' => $this->frameworkComposer[$section] ?? null,
+            'starter'   => $this->starterComposer[$section] ?? null,
+            default     => throw new InvalidArgumentException(sprintf('Unknown component: %s.', $component)),
+        };
 
         $this->assertSame(
             $this->devComposer[$section],

@@ -26,19 +26,9 @@ use Config\Mimes;
 class DownloadResponse extends Response
 {
     /**
-     * Download file name
-     */
-    private string $filename;
-
-    /**
      * Download for file
      */
     private ?File $file = null;
-
-    /**
-     * mime set flag
-     */
-    private bool $setMime;
 
     /**
      * Download for binary
@@ -67,12 +57,15 @@ class DownloadResponse extends Response
     /**
      * Constructor.
      */
-    public function __construct(string $filename, bool $setMime)
-    {
+    public function __construct(/**
+     * Download file name
+     */
+        private string $filename, /**
+     * mime set flag
+     */
+        private readonly bool $setMime
+    ) {
         parent::__construct(config(App::class));
-
-        $this->filename = $filename;
-        $this->setMime  = $setMime;
 
         // Make sure the content type is either specified or detected
         $this->removeHeader('Content-Type');
@@ -173,7 +166,7 @@ class DownloadResponse extends Response
          */
         // @todo: depend super global
         if (count($x) !== 1 && isset($_SERVER['HTTP_USER_AGENT'])
-                && preg_match('/Android\s(1|2\.[01])/', $_SERVER['HTTP_USER_AGENT'])) {
+                && preg_match('/Android\s(1|2\.[01])/', (string) $_SERVER['HTTP_USER_AGENT'])) {
             $x[count($x) - 1] = strtoupper($extension);
             $filename         = implode('.', $x);
         }
@@ -208,7 +201,7 @@ class DownloadResponse extends Response
      *
      * @throws DownloadException
      */
-    public function setStatusCode(int $code, string $reason = '')
+    public function setStatusCode(int $code, string $reason = ''): never
     {
         throw DownloadException::forCannotSetStatusCode($code, $reason);
     }
@@ -247,7 +240,7 @@ class DownloadResponse extends Response
      *
      * @throws DownloadException
      */
-    public function setCache(array $options = [])
+    public function setCache(array $options = []): never
     {
         throw DownloadException::forCannotSetCache();
     }

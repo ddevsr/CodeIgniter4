@@ -73,7 +73,7 @@ trait ReflectionHelper
      *
      * @throws ReflectionException
      */
-    public static function setPrivateProperty($obj, $property, $value)
+    public static function setPrivateProperty($obj, $property, mixed $value)
     {
         $refProperty = self::getAccessibleRefProperty($obj, $property);
 

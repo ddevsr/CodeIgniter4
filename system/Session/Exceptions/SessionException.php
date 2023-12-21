@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace CodeIgniter\Session\Exceptions;
 
 use CodeIgniter\Exceptions\FrameworkException;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 class SessionException extends FrameworkException
 {
@@ -44,9 +45,8 @@ class SessionException extends FrameworkException
 
     /**
      * @deprecated
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public static function forInvalidSameSiteSetting(string $samesite)
     {
         return new static(lang('Session.invalidSameSiteSetting', [$samesite]));

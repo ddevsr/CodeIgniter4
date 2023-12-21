@@ -15,14 +15,14 @@ namespace CodeIgniter\Commands\Server;
 
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 /**
  * Launch the PHP development server
  *
  * Not testable, as it throws phpunit for a loop :-/
- *
- * @codeCoverageIgnore
  */
+#[CodeCoverageIgnore]
 class Serve extends BaseCommand
 {
     /**

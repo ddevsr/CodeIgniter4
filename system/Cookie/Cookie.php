@@ -175,21 +175,21 @@ class Cookie implements ArrayAccess, CloneableCookieInterface
         $data['raw'] = $raw;
 
         $parts = preg_split('/\;[\s]*/', $cookie);
-        $part  = explode('=', array_shift($parts), 2);
+        $part  = explode('=', (string) array_shift($parts), 2);
 
         $name  = $raw ? $part[0] : urldecode($part[0]);
         $value = isset($part[1]) ? ($raw ? $part[1] : urldecode($part[1])) : '';
         unset($part);
 
         foreach ($parts as $part) {
-            if (strpos($part, '=') !== false) {
-                [$attr, $val] = explode('=', $part);
+            if (str_contains((string) $part, '=')) {
+                [$attr, $val] = explode('=', (string) $part);
             } else {
                 $attr = $part;
                 $val  = true;
             }
 
-            $data[strtolower($attr)] = $val;
+            $data[strtolower((string) $attr)] = $val;
         }
 
         return new static($name, $value, $data);
@@ -603,7 +603,7 @@ class Cookie implements ArrayAccess, CloneableCookieInterface
      *
      * @throws LogicException
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet($offset, $value): never
     {
         throw new LogicException(sprintf('Cannot set values of properties of %s as it is immutable.', static::class));
     }
@@ -615,7 +615,7 @@ class Cookie implements ArrayAccess, CloneableCookieInterface
      *
      * @throws LogicException
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset($offset): never
     {
         throw new LogicException(sprintf('Cannot unset values of properties of %s as it is immutable.', static::class));
     }
@@ -752,11 +752,11 @@ class Cookie implements ArrayAccess, CloneableCookieInterface
      */
     protected function validatePrefix(string $prefix, bool $secure, string $path, string $domain): void
     {
-        if (strpos($prefix, '__Secure-') === 0 && ! $secure) {
+        if (str_starts_with($prefix, '__Secure-') && ! $secure) {
             throw CookieException::forInvalidSecurePrefix();
         }
 
-        if (strpos($prefix, '__Host-') === 0 && (! $secure || $domain !== '' || $path !== '/')) {
+        if (str_starts_with($prefix, '__Host-') && (! $secure || $domain !== '' || $path !== '/')) {
             throw CookieException::forInvalidHostPrefix();
         }
     }

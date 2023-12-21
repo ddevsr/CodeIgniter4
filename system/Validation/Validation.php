@@ -24,6 +24,7 @@ use Config\Services;
 use Config\Validation as ValidationConfig;
 use InvalidArgumentException;
 use LogicException;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use TypeError;
 
 /**
@@ -171,7 +172,7 @@ class Validation implements ValidationInterface
                 $rules = $this->splitRules($rules);
             }
 
-            if (strpos($field, '*') !== false) {
+            if (str_contains($field, '*')) {
                 $flattenedArray = array_flatten_with_dots($data);
 
                 $values = array_filter(
@@ -193,7 +194,7 @@ class Validation implements ValidationInterface
                 continue;
             }
 
-            if (strpos($field, '*') !== false) {
+            if (str_contains($field, '*')) {
                 // Process multiple fields
                 foreach ($values as $dotField => $value) {
                     $this->processRules($dotField, $setup['label'] ?? $field, $value, $rules, $data, $field);
@@ -306,7 +307,7 @@ class Validation implements ValidationInterface
             /** @var string|null $param */
             $param = null;
 
-            if (! $isCallable && preg_match('/(.*?)\[(.*)\]/', $rule, $match)) {
+            if (! $isCallable && preg_match('/(.*?)\[(.*)\]/', (string) $rule, $match)) {
                 $rule  = $match[1];
                 $param = $match[2];
             }
@@ -389,7 +390,7 @@ class Validation implements ValidationInterface
             $flattenedData = array_flatten_with_dots($data);
             $ifExistField  = $field;
 
-            if (strpos($field, '.*') !== false) {
+            if (str_contains($field, '.*')) {
                 // We'll change the dot notation into a PCRE pattern that can be used later
                 $ifExistField   = str_replace('\.\*', '\.(?:[^\.]+)', preg_quote($field, '/'));
                 $dataIsExisting = false;
@@ -433,7 +434,7 @@ class Validation implements ValidationInterface
                 $passed = true;
 
                 foreach ($rules as $rule) {
-                    if (! $this->isClosure($rule) && preg_match('/(.*?)\[(.*)\]/', $rule, $match)) {
+                    if (! $this->isClosure($rule) && preg_match('/(.*?)\[(.*)\]/', (string) $rule, $match)) {
                         $rule  = $match[1];
                         $param = $match[2];
 
@@ -505,7 +506,7 @@ class Validation implements ValidationInterface
     public function withRequest(RequestInterface $request): ValidationInterface
     {
         /** @var IncomingRequest $request */
-        if (strpos($request->getHeaderLine('Content-Type'), 'application/json') !== false) {
+        if (str_contains($request->getHeaderLine('Content-Type'), 'application/json')) {
             $this->data = $request->getJSON(true);
 
             if (! is_array($this->data)) {
@@ -516,7 +517,7 @@ class Validation implements ValidationInterface
         }
 
         if (in_array($request->getMethod(), [Method::PUT, Method::PATCH, Method::DELETE], true)
-            && strpos($request->getHeaderLine('Content-Type'), 'multipart/form-data') === false
+            && ! str_contains($request->getHeaderLine('Content-Type'), 'multipart/form-data')
         ) {
             $this->data = $request->getRawInput();
         } else {
@@ -820,7 +821,7 @@ class Validation implements ValidationInterface
                         }
 
                         // Replace the placeholder in the rule
-                        $ruleSet = str_replace('{' . $field . '}', (string) $data[$field], $ruleSet);
+                        $ruleSet = str_replace('{' . $field . '}', (string) $data[$field], (string) $ruleSet);
                     }
                 }
             }
@@ -878,9 +879,8 @@ class Validation implements ValidationInterface
      *    ]
      *
      * @return array<string, string>
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public function getErrors(): array
     {
         return $this->errors;
@@ -938,7 +938,7 @@ class Validation implements ValidationInterface
      */
     protected function splitRules(string $rules): array
     {
-        if (strpos($rules, '|') === false) {
+        if (! str_contains($rules, '|')) {
             return [$rules];
         }
 

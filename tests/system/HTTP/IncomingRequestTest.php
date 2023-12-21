@@ -21,15 +21,18 @@ use CodeIgniter\Test\CIUnitTestCase;
 use Config\App;
 use InvalidArgumentException;
 use JsonException;
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use TypeError;
 
 /**
- * @backupGlobals enabled
- *
  * @internal
- *
- * @group SeparateProcess
  */
+#[BackupGlobals(true)]
+#[Group('SeparateProcess')]
 final class IncomingRequestTest extends CIUnitTestCase
 {
     private Request $request;
@@ -140,10 +143,9 @@ final class IncomingRequestTest extends CIUnitTestCase
 
     /**
      * @see https://github.com/codeigniter4/CodeIgniter4/issues/1492
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
      */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testCanGetOldInputArrayWithSessionService(): void
     {
         $locations = [
@@ -655,15 +657,10 @@ final class IncomingRequestTest extends CIUnitTestCase
     }
 
     /**
-     * @dataProvider provideCanGrabGetRawInputVar
-     *
      * @param string $rawstring
-     * @param mixed  $var
-     * @param mixed  $expected
-     * @param mixed  $filter
-     * @param mixed  $flag
      */
-    public function testCanGrabGetRawInputVar($rawstring, $var, $expected, $filter, $flag): void
+    #[DataProvider('provideCanGrabGetRawInputVar')]
+    public function testCanGrabGetRawInputVar($rawstring, mixed $var, mixed $expected, mixed $filter, mixed $flag): void
     {
         $config          = new App();
         $config->baseURL = 'http://example.com/';
@@ -673,9 +670,7 @@ final class IncomingRequestTest extends CIUnitTestCase
         $this->assertSame($expected, $request->getRawInputVar($var, $filter, $flag));
     }
 
-    /**
-     * @dataProvider provideIsHTTPMethods
-     */
+    #[DataProvider('provideIsHTTPMethods')]
     public function testIsHTTPMethodLowerCase(string $value): void
     {
         $request = $this->request->withMethod($value);
@@ -696,9 +691,7 @@ final class IncomingRequestTest extends CIUnitTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideIsHTTPMethods
-     */
+    #[DataProvider('provideIsHTTPMethods')]
     public function testIsHTTPMethodUpperCase(string $value): void
     {
         $request = $this->request->withMethod($value);
@@ -917,13 +910,8 @@ final class IncomingRequestTest extends CIUnitTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideExtensionPHP
-     *
-     * @param mixed $path
-     * @param mixed $detectPath
-     */
-    public function testExtensionPHP($path, $detectPath): void
+    #[DataProvider('provideExtensionPHP')]
+    public function testExtensionPHP(mixed $path, mixed $detectPath): void
     {
         $config          = new App();
         $config->baseURL = 'http://example.com/';

@@ -107,7 +107,7 @@ class Builder extends BaseBuilder
      */
     protected function _replace(string $table, array $keys, array $values): string
     {
-        $fieldNames = array_map(static fn ($columnName) => trim($columnName, '"'), $keys);
+        $fieldNames = array_map(static fn ($columnName) => trim((string) $columnName, '"'), $keys);
 
         $uniqueIndexes = array_filter($this->db->getIndexData($table), static function ($index) use ($fieldNames) {
             $hasAllFields = count(array_intersect($index->fields, $fieldNames)) === count($index->fields);
@@ -484,7 +484,7 @@ class Builder extends BaseBuilder
             // convert binds in where
             foreach ($this->QBWhere as $key => $where) {
                 foreach ($this->binds as $field => $bind) {
-                    $this->QBWhere[$key]['condition'] = str_replace(':' . $field . ':', $bind[0], $where['condition']);
+                    $this->QBWhere[$key]['condition'] = str_replace(':' . $field . ':', $bind[0], (string) $where['condition']);
                 }
             }
 

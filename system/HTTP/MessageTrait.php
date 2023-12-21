@@ -163,8 +163,8 @@ trait MessageTrait
                 $this->appendHeader($origName, $v);
             }
         } else {
-            $this->headers[$origName]               = new Header($origName, $value);
-            $this->headerMap[strtolower($origName)] = $origName;
+            $this->headers[$origName]                        = new Header($origName, $value);
+            $this->headerMap[strtolower((string) $origName)] = $origName;
         }
 
         return $this;

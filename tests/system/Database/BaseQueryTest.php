@@ -15,12 +15,13 @@ namespace CodeIgniter\Database;
 
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\Mock\MockConnection;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class BaseQueryTest extends CIUnitTestCase
 {
     protected $db;
@@ -184,13 +185,8 @@ final class BaseQueryTest extends CIUnitTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideIsWriteType
-     *
-     * @param mixed $expected
-     * @param mixed $sql
-     */
-    public function testIsWriteType($expected, $sql): void
+    #[DataProvider('provideIsWriteType')]
+    public function testIsWriteType(mixed $expected, mixed $sql): void
     {
         $query = new Query($this->db);
 
@@ -597,13 +593,8 @@ final class BaseQueryTest extends CIUnitTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideHighlightQueryKeywords
-     *
-     * @param mixed $expected
-     * @param mixed $sql
-     */
-    public function testHighlightQueryKeywords($expected, $sql): void
+    #[DataProvider('provideHighlightQueryKeywords')]
+    public function testHighlightQueryKeywords(mixed $expected, mixed $sql): void
     {
         $query = new Query($this->db);
         $query->setQuery($sql);

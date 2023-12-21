@@ -14,12 +14,12 @@ declare(strict_types=1);
 namespace CodeIgniter\Helpers;
 
 use CodeIgniter\Test\CIUnitTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class NumberHelperTest extends CIUnitTestCase
 {
     protected function setUp(): void

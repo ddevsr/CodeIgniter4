@@ -15,13 +15,13 @@ namespace CodeIgniter\Debug\Toolbar\Collectors;
 
 use CodeIgniter\Database\Query;
 use CodeIgniter\Test\CIUnitTestCase;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class DatabaseTest extends CIUnitTestCase
 {
     public function testDisplay(): void
@@ -48,7 +48,7 @@ final class DatabaseTest extends CIUnitTestCase
             $this->assertArrayHasKey('index', $trace);
             $this->assertSame(
                 sprintf('%s', $i + 1),
-                preg_replace(sprintf('/%s/', chr(0xC2) . chr(0xA0)), '', $trace['index'])
+                preg_replace(sprintf('/%s/', chr(0xC2) . chr(0xA0)), '', (string) $trace['index'])
             );
 
             // since we merged file & line together

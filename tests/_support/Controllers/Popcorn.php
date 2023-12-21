@@ -35,7 +35,7 @@ class Popcorn extends Controller
         return $this->respond('Oops', 567, 'Surprise');
     }
 
-    public function popper(): void
+    public function popper(): never
     {
         throw new RuntimeException('Surprise', 500);
     }

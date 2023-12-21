@@ -15,13 +15,13 @@ namespace CodeIgniter\Debug;
 
 use ArgumentCountError;
 use CodeIgniter\Test\CIUnitTestCase;
+use PHPUnit\Framework\Attributes\Group;
 use RuntimeException;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class TimerTest extends CIUnitTestCase
 {
     /**
@@ -168,7 +168,7 @@ final class TimerTest extends CIUnitTestCase
         $this->expectException(RuntimeException::class);
 
         $timer = new Timer();
-        $timer->record('ex', static function (): void { throw new RuntimeException(); });
+        $timer->record('ex', static function (): never { throw new RuntimeException(); });
     }
 
     public function testRecordThrowsErrorOnCallableWithParams(): void

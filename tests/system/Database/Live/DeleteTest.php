@@ -18,13 +18,13 @@ use CodeIgniter\Database\Forge;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
 use Config\Database;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\Support\Database\Seeds\CITestSeeder;
 
 /**
- * @group DatabaseLive
- *
  * @internal
  */
+#[Group('DatabaseLive')]
 final class DeleteTest extends CIUnitTestCase
 {
     use DatabaseTestTrait;
@@ -69,7 +69,7 @@ final class DeleteTest extends CIUnitTestCase
         try {
             $this->db->table('user')->delete(['country' => 'US'], 1);
         } catch (DatabaseException $e) {
-            if (strpos($e->getMessage(), 'does not allow LIMITs on DELETE queries.') !== false) {
+            if (str_contains($e->getMessage(), 'does not allow LIMITs on DELETE queries.')) {
                 return;
             }
         }

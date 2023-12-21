@@ -156,7 +156,7 @@ abstract class BaseUtils
                 $key = $tableName;
             } else {
                 $res  = current($res);
-                $key  = str_replace($this->db->database . '.', '', current($res));
+                $key  = str_replace($this->db->database . '.', '', (string) current($res));
                 $keys = array_keys($res);
                 unset($res[$keys[0]]);
             }
@@ -204,7 +204,7 @@ abstract class BaseUtils
         $out = '';
 
         foreach ($query->getFieldNames() as $name) {
-            $out .= $enclosure . str_replace($enclosure, $enclosure . $enclosure, $name) . $enclosure . $delim;
+            $out .= $enclosure . str_replace($enclosure, $enclosure . $enclosure, (string) $name) . $enclosure . $delim;
         }
 
         $out = substr($out, 0, -strlen($delim)) . $newline;

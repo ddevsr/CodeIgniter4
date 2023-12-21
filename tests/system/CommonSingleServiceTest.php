@@ -18,19 +18,18 @@ use CodeIgniter\Config\Services;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\Mock\MockSecurity;
 use Config\Security as SecurityConfig;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use ReflectionClass;
 use ReflectionMethod;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class CommonSingleServiceTest extends CIUnitTestCase
 {
-    /**
-     * @dataProvider provideServiceNames
-     */
+    #[DataProvider('provideServiceNames')]
     public function testSingleServiceWithNoParamsSupplied(string $service): void
     {
         Services::injectMock('security', new MockSecurity(new SecurityConfig()));
@@ -40,13 +39,11 @@ final class CommonSingleServiceTest extends CIUnitTestCase
 
         assert($service1 !== null);
 
-        $this->assertInstanceOf(get_class($service1), $service2);
+        $this->assertInstanceOf($service1::class, $service2);
         $this->assertNotSame($service1, $service2);
     }
 
-    /**
-     * @dataProvider provideServiceNames
-     */
+    #[DataProvider('provideServiceNames')]
     public function testSingleServiceWithAtLeastOneParamSupplied(string $service): void
     {
         if ($service === 'commands') {
@@ -70,7 +67,7 @@ final class CommonSingleServiceTest extends CIUnitTestCase
 
         assert($service1 !== null);
 
-        $this->assertInstanceOf(get_class($service1), $service2);
+        $this->assertInstanceOf($service1::class, $service2);
         $this->assertNotSame($service1, $service2);
 
         if ($service === 'commands') {
@@ -88,7 +85,7 @@ final class CommonSingleServiceTest extends CIUnitTestCase
 
         // Assert that even passing true as last param this will
         // not create a shared instance.
-        $this->assertInstanceOf(get_class($cache1), $cache2);
+        $this->assertInstanceOf($cache1::class, $cache2);
         $this->assertNotSame($cache1, $cache2);
     }
 

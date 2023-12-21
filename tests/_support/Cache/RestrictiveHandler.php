@@ -24,5 +24,5 @@ class RestrictiveHandler extends DummyHandler
     /**
      * Maximum key length.
      */
-    public const MAX_KEY_LENGTH = 10;
+    final public const MAX_KEY_LENGTH = 10;
 }

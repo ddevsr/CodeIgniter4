@@ -15,6 +15,7 @@ namespace CodeIgniter\Format\Exceptions;
 
 use CodeIgniter\Exceptions\DebugTraceableTrait;
 use CodeIgniter\Exceptions\ExceptionInterface;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use RuntimeException;
 
 /**
@@ -63,9 +64,8 @@ class FormatException extends RuntimeException implements ExceptionInterface
      * is not installed.
      *
      * @return static
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public static function forMissingExtension()
     {
         return new static(lang('Format.missingExtension'));

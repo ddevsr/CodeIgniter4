@@ -19,6 +19,7 @@ use CodeIgniter\HTTP\Exceptions\HTTPException;
 use Config\App;
 use Config\Cookie as CookieConfig;
 use Config\Services;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 /**
  * Representation of an outgoing, server-side response.
@@ -211,9 +212,8 @@ class Response extends Message implements ResponseInterface
      * @see http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
      *
      * @deprecated Use getReasonPhrase()
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public function getReason(): string
     {
         return $this->getReasonPhrase();

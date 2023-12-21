@@ -20,13 +20,14 @@ use CodeIgniter\Test\Mock\MockConnection;
 use DateTime;
 use Error;
 use ErrorException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use stdClass;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class WhereTest extends CIUnitTestCase
 {
     /**
@@ -402,12 +403,8 @@ final class WhereTest extends CIUnitTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideWhereInvalidKeyThrowInvalidArgumentException
-     *
-     * @param mixed $key
-     */
-    public function testWhereInvalidKeyThrowInvalidArgumentException($key): void
+    #[DataProvider('provideWhereInvalidKeyThrowInvalidArgumentException')]
+    public function testWhereInvalidKeyThrowInvalidArgumentException(mixed $key): void
     {
         $this->expectException('InvalidArgumentException');
         $builder = $this->db->table('jobs');
@@ -424,12 +421,8 @@ final class WhereTest extends CIUnitTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideWhereInEmptyValuesThrowInvalidArgumentException
-     *
-     * @param mixed $values
-     */
-    public function testWhereInEmptyValuesThrowInvalidArgumentException($values): void
+    #[DataProvider('provideWhereInEmptyValuesThrowInvalidArgumentException')]
+    public function testWhereInEmptyValuesThrowInvalidArgumentException(mixed $values): void
     {
         $this->expectException('InvalidArgumentException');
         $builder = $this->db->table('jobs');

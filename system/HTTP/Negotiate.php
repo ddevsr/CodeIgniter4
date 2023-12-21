@@ -328,8 +328,8 @@ class Negotiate
     {
         // PHPDocumentor v2 cannot parse yet the shorter list syntax,
         // causing no API generation for the file.
-        [$aType, $aSubType] = explode('/', $acceptable['value']);
-        [$sType, $sSubType] = explode('/', $supported['value']);
+        [$aType, $aSubType] = explode('/', (string) $acceptable['value']);
+        [$sType, $sSubType] = explode('/', (string) $supported['value']);
 
         // If the types don't match, we're done.
         if ($aType !== $sType) {
@@ -351,13 +351,13 @@ class Negotiate
      */
     public function matchLocales(array $acceptable, array $supported): bool
     {
-        $aBroad = mb_strpos($acceptable['value'], '-') > 0
-            ? mb_substr($acceptable['value'], 0, mb_strpos($acceptable['value'], '-'))
+        $aBroad = mb_strpos((string) $acceptable['value'], '-') > 0
+            ? mb_substr((string) $acceptable['value'], 0, mb_strpos((string) $acceptable['value'], '-'))
             : $acceptable['value'];
-        $sBroad = mb_strpos($supported['value'], '-') > 0
-            ? mb_substr($supported['value'], 0, mb_strpos($supported['value'], '-'))
+        $sBroad = mb_strpos((string) $supported['value'], '-') > 0
+            ? mb_substr((string) $supported['value'], 0, mb_strpos((string) $supported['value'], '-'))
             : $supported['value'];
 
-        return strtolower($aBroad) === strtolower($sBroad);
+        return strtolower((string) $aBroad) === strtolower((string) $sBroad);
     }
 }

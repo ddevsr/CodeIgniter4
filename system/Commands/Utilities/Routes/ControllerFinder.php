@@ -23,20 +23,14 @@ use CodeIgniter\Config\Services;
  */
 final class ControllerFinder
 {
-    /**
-     * @var string namespace to search
-     */
-    private string $namespace;
-
-    private FileLocatorInterface $locator;
+    private readonly FileLocatorInterface $locator;
 
     /**
      * @param string $namespace namespace to search
      */
-    public function __construct(string $namespace)
+    public function __construct(private readonly string $namespace)
     {
-        $this->namespace = $namespace;
-        $this->locator   = Services::locator();
+        $this->locator = Services::locator();
     }
 
     /**

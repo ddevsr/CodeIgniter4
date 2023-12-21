@@ -38,9 +38,9 @@ use LogicException;
  */
 class Security implements SecurityInterface
 {
-    public const CSRF_PROTECTION_COOKIE  = 'cookie';
-    public const CSRF_PROTECTION_SESSION = 'session';
-    protected const CSRF_HASH_BYTES      = 16;
+    final public const CSRF_PROTECTION_COOKIE  = 'cookie';
+    final public const CSRF_PROTECTION_SESSION = 'session';
+    protected const CSRF_HASH_BYTES            = 16;
 
     /**
      * CSRF Protection Method
@@ -161,7 +161,7 @@ class Security implements SecurityInterface
      */
     protected $samesite = Cookie::SAMESITE_LAX;
 
-    private IncomingRequest $request;
+    private readonly IncomingRequest $request;
 
     /**
      * CSRF Cookie Name without Prefix
@@ -182,20 +182,16 @@ class Security implements SecurityInterface
     private ?string $hashInCookie = null;
 
     /**
-     * Security Config
-     */
-    protected SecurityConfig $config;
-
-    /**
      * Constructor.
      *
      * Stores our configuration and fires off the init() method to setup
      * initial state.
      */
-    public function __construct(SecurityConfig $config)
-    {
-        $this->config = $config;
-
+    public function __construct(/**
+     * Security Config
+     */
+        protected SecurityConfig $config
+    ) {
         $this->rawCookieName = $config->cookieName;
 
         if ($this->isCSRFCookie()) {
@@ -254,7 +250,7 @@ class Security implements SecurityInterface
         try {
             $token = ($postedToken !== null && $this->config->tokenRandomize)
                 ? $this->derandomize($postedToken) : $postedToken;
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             $token = null;
         }
 
@@ -375,7 +371,7 @@ class Security implements SecurityInterface
         $value = substr($token, 0, static::CSRF_HASH_BYTES * 2);
 
         try {
-            return bin2hex(hex2bin($value) ^ hex2bin($key));
+            return bin2hex((string) (hex2bin($value) ^ hex2bin($key)));
         } catch (ErrorException $e) {
             // "hex2bin(): Hexadecimal input string must have an even length"
             throw new InvalidArgumentException($e->getMessage());

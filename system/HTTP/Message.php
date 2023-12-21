@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace CodeIgniter\HTTP;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 /**
  * An HTTP message
@@ -68,9 +69,8 @@ class Message implements MessageInterface
      * @deprecated Use Message::headers() to make room for PSR-7
      *
      * @TODO Incompatible return value with PSR-7
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public function getHeaders(): array
     {
         return $this->headers();
@@ -85,9 +85,8 @@ class Message implements MessageInterface
      * @deprecated Use Message::header() to make room for PSR-7
      *
      * @TODO Incompatible return value with PSR-7
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public function getHeader(string $name)
     {
         return $this->header($name);

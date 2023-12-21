@@ -370,7 +370,7 @@ class Forge
                 ]);
                 $this->addKey('id', true);
             } else {
-                if (strpos($field, ' ') === false) {
+                if (! str_contains($field, ' ')) {
                     throw new InvalidArgumentException('Field information is required for that operation.');
                 }
 
@@ -626,7 +626,7 @@ class Forge
             return false;
         }
 
-        if ($this->db->DBPrefix && strpos($tableName, $this->db->DBPrefix) === 0) {
+        if ($this->db->DBPrefix && str_starts_with($tableName, $this->db->DBPrefix)) {
             $tableName = substr($tableName, strlen($this->db->DBPrefix));
         }
 
@@ -829,7 +829,7 @@ class Forge
                 $fields = explode(',', $fields);
             }
 
-            $fields = array_map(fn ($field) => 'DROP COLUMN ' . $this->db->escapeIdentifiers(trim($field)), $fields);
+            $fields = array_map(fn ($field) => 'DROP COLUMN ' . $this->db->escapeIdentifiers(trim((string) $field)), $fields);
 
             return $sql . implode(', ', $fields);
         }
@@ -979,13 +979,13 @@ class Forge
 
         if (is_array($this->unsigned)) {
             foreach (array_keys($this->unsigned) as $key) {
-                if (is_int($key) && strcasecmp($attributes['TYPE'], $this->unsigned[$key]) === 0) {
+                if (is_int($key) && strcasecmp((string) $attributes['TYPE'], (string) $this->unsigned[$key]) === 0) {
                     $field['unsigned'] = ' UNSIGNED';
 
                     return;
                 }
 
-                if (is_string($key) && strcasecmp($attributes['TYPE'], $key) === 0) {
+                if (is_string($key) && strcasecmp((string) $attributes['TYPE'], $key) === 0) {
                     $field['type'] = $key;
 
                     return;
@@ -1029,7 +1029,7 @@ class Forge
     protected function _attributeAutoIncrement(array &$attributes, array &$field)
     {
         if (! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === true
-            && stripos($field['type'], 'int') !== false
+            && stripos((string) $field['type'], 'int') !== false
         ) {
             $field['auto_increment'] = ' AUTO_INCREMENT';
         }

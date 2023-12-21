@@ -28,7 +28,7 @@ class FileHandler extends BaseHandler
     /**
      * Maximum key length.
      */
-    public const MAX_KEY_LENGTH = 255;
+    final public const MAX_KEY_LENGTH = 255;
 
     /**
      * Where to store cached files on the disk.

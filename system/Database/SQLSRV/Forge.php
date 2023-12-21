@@ -172,7 +172,7 @@ class Forge extends BaseForge
 
             $sql = 'ALTER TABLE ' . $fullTable . ' DROP ';
 
-            $fields = array_map(static fn ($item) => 'COLUMN [' . trim($item) . ']', (array) $field);
+            $fields = array_map(static fn ($item) => 'COLUMN [' . trim((string) $item) . ']', (array) $field);
 
             return $sql . implode(',', $fields);
         }
@@ -307,11 +307,11 @@ class Forge extends BaseForge
     protected function _attributeType(array &$attributes)
     {
         // Reset field lengths for data types that don't support it
-        if (isset($attributes['CONSTRAINT']) && stripos($attributes['TYPE'], 'int') !== false) {
+        if (isset($attributes['CONSTRAINT']) && stripos((string) $attributes['TYPE'], 'int') !== false) {
             $attributes['CONSTRAINT'] = null;
         }
 
-        switch (strtoupper($attributes['TYPE'])) {
+        switch (strtoupper((string) $attributes['TYPE'])) {
             case 'MEDIUMINT':
                 $attributes['TYPE']     = 'INTEGER';
                 $attributes['UNSIGNED'] = false;
@@ -344,7 +344,7 @@ class Forge extends BaseForge
      */
     protected function _attributeAutoIncrement(array &$attributes, array &$field)
     {
-        if (! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === true && stripos($field['type'], 'INT') !== false) {
+        if (! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === true && stripos((string) $field['type'], 'INT') !== false) {
             $field['auto_increment'] = ' IDENTITY(1,1)';
         }
     }

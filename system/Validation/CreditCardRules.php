@@ -205,19 +205,19 @@ class CreditCardRules
         }
 
         // Make sure it's a valid length for this card
-        $lengths = explode(',', $info['length']);
+        $lengths = explode(',', (string) $info['length']);
 
         if (! in_array((string) strlen($ccNumber), $lengths, true)) {
             return false;
         }
 
         // Make sure it has a valid prefix
-        $prefixes = explode(',', $info['prefixes']);
+        $prefixes = explode(',', (string) $info['prefixes']);
 
         $validPrefix = false;
 
         foreach ($prefixes as $prefix) {
-            if (strpos($ccNumber, $prefix) === 0) {
+            if (str_starts_with($ccNumber, $prefix)) {
                 $validPrefix = true;
                 break;
             }

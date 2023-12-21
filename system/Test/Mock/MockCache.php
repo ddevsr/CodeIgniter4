@@ -276,10 +276,8 @@ class MockCache extends BaseHandler implements CacheInterface
 
     /**
      * Asserts that the cache has an item named $key with a value matching $value.
-     *
-     * @param mixed $value
      */
-    public function assertHasValue(string $key, $value = null)
+    public function assertHasValue(string $key, mixed $value = null)
     {
         $item = $this->get($key);
 

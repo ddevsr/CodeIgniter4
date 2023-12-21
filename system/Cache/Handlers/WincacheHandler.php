@@ -16,12 +16,12 @@ namespace CodeIgniter\Cache\Handlers;
 use CodeIgniter\I18n\Time;
 use Config\Cache;
 use Exception;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 /**
  * Cache handler for WinCache from Microsoft & IIS.
- *
- * @codeCoverageIgnore
  */
+#[CodeCoverageIgnore]
 class WincacheHandler extends BaseHandler
 {
     /**
@@ -75,10 +75,8 @@ class WincacheHandler extends BaseHandler
 
     /**
      * {@inheritDoc}
-     *
-     * @return never
      */
-    public function deleteMatching(string $pattern)
+    public function deleteMatching(string $pattern): never
     {
         throw new Exception('The deleteMatching method is not implemented for Wincache. You must select File, Redis or Predis handlers to use it.');
     }

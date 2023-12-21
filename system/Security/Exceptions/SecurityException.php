@@ -15,6 +15,7 @@ namespace CodeIgniter\Security\Exceptions;
 
 use CodeIgniter\Exceptions\FrameworkException;
 use CodeIgniter\Exceptions\HTTPExceptionInterface;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 class SecurityException extends FrameworkException implements HTTPExceptionInterface
 {
@@ -63,10 +64,9 @@ class SecurityException extends FrameworkException implements HTTPExceptionInter
     /**
      * @deprecated Use `CookieException::forInvalidSameSite()` instead.
      *
-     * @codeCoverageIgnore
-     *
      * @return static
      */
+    #[CodeCoverageIgnore]
     public static function forInvalidSameSite(string $samesite)
     {
         return new static(lang('Security.invalidSameSite', [$samesite]));

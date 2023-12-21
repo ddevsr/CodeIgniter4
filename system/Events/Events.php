@@ -23,9 +23,9 @@ use Config\Services;
  */
 class Events
 {
-    public const PRIORITY_LOW    = 200;
-    public const PRIORITY_NORMAL = 100;
-    public const PRIORITY_HIGH   = 10;
+    final public const PRIORITY_LOW    = 200;
+    final public const PRIORITY_NORMAL = 100;
+    final public const PRIORITY_HIGH   = 10;
 
     /**
      * The list of listeners.
@@ -139,9 +139,8 @@ class Events
      *  b) a method returns false, at which point execution of subscribers stops.
      *
      * @param string $eventName
-     * @param mixed  $arguments
      */
-    public static function trigger($eventName, ...$arguments): bool
+    public static function trigger($eventName, mixed ...$arguments): bool
     {
         // Read in our Config/Events file so that we have them all!
         if (! static::$initialized) {

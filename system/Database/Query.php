@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Database;
 
+use Stringable;
+
 /**
  * Query builder
  */
-class Query implements QueryInterface
+class Query implements QueryInterface, Stringable
 {
     /**
      * The query string, as provided by the user.
@@ -341,7 +343,7 @@ class Query implements QueryInterface
     protected function matchSimpleBinds(string $sql, array $binds, int $bindCount, int $ml): string
     {
         if ($c = preg_match_all("/'[^']*'/", $sql, $matches)) {
-            $c = preg_match_all('/' . preg_quote($this->bindMarker, '/') . '/i', str_replace($matches[0], str_replace($this->bindMarker, str_repeat(' ', $ml), $matches[0]), $sql, $c), $matches, PREG_OFFSET_CAPTURE);
+            $c = preg_match_all('/' . preg_quote($this->bindMarker, '/') . '/i', str_replace($matches[0], str_replace($this->bindMarker, str_repeat(' ', $ml), (string) $matches[0]), $sql, $c), $matches, PREG_OFFSET_CAPTURE);
 
             // Bind values' count must match the count of markers in the query
             if ($bindCount !== $c) {

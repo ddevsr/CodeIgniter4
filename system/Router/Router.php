@@ -21,6 +21,7 @@ use CodeIgniter\HTTP\Request;
 use CodeIgniter\Router\Exceptions\RouterException;
 use Config\App;
 use Config\Feature;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 /**
  * Request router.
@@ -32,7 +33,7 @@ class Router implements RouterInterface
     /**
      * List of allowed HTTP methods (and CLI for command line use).
      */
-    public const HTTP_METHODS = [
+    final public const HTTP_METHODS = [
         Method::GET,
         Method::HEAD,
         Method::POST,
@@ -406,7 +407,7 @@ class Router implements RouterInterface
             $matchedKey = $routeKey;
 
             // Are we dealing with a locale?
-            if (strpos($routeKey, '{locale}') !== false) {
+            if (str_contains($routeKey, '{locale}')) {
                 $routeKey = str_replace('{locale}', '[^/]+', $routeKey);
             }
 
@@ -419,7 +420,7 @@ class Router implements RouterInterface
                         static $i = 1;
 
                         return '$' . $i++;
-                    }, is_array($handler) ? key($handler) : $handler);
+                    }, (string) (is_array($handler) ? key($handler) : $handler));
 
                     throw new RedirectException(
                         preg_replace('#^' . $routeKey . '$#u', $redirectTo, $uri),
@@ -428,7 +429,7 @@ class Router implements RouterInterface
                 }
                 // Store our locale so CodeIgniter object can
                 // assign it to the Request.
-                if (strpos($matchedKey, '{locale}') !== false) {
+                if (str_contains($matchedKey, '{locale}')) {
                     preg_match(
                         '#^' . str_replace('{locale}', '(?<locale>[^/]+)', $matchedKey) . '$#u',
                         $uri,
@@ -462,24 +463,24 @@ class Router implements RouterInterface
                     return true;
                 }
 
-                [$controller] = explode('::', $handler);
+                [$controller] = explode('::', (string) $handler);
 
                 // Checks `/` in controller name
-                if (strpos($controller, '/') !== false) {
+                if (str_contains($controller, '/')) {
                     throw RouterException::forInvalidControllerName($handler);
                 }
 
-                if (strpos($handler, '$') !== false && strpos($routeKey, '(') !== false) {
+                if (str_contains((string) $handler, '$') && str_contains($routeKey, '(')) {
                     // Checks dynamic controller
-                    if (strpos($controller, '$') !== false) {
+                    if (str_contains($controller, '$')) {
                         throw RouterException::forDynamicController($handler);
                     }
 
                     // Using back-references
-                    $handler = preg_replace('#^' . $routeKey . '$#u', $handler, $uri);
+                    $handler = preg_replace('#^' . $routeKey . '$#u', (string) $handler, $uri);
                 }
 
-                $this->setRequest(explode('/', $handler));
+                $this->setRequest(explode('/', (string) $handler));
 
                 $this->setMatchedRoute($matchedKey, $handler);
 
@@ -512,9 +513,8 @@ class Router implements RouterInterface
      * @return array returns an array of remaining uri segments that don't map onto a directory
      *
      * @deprecated this function name does not properly describe its behavior so it has been deprecated
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     protected function validateRequest(array $segments): array
     {
         return $this->scanControllers($segments);
@@ -545,7 +545,7 @@ class Router implements RouterInterface
         $c = count($segments);
 
         while ($c-- > 0) {
-            $segmentConvert = ucfirst($this->translateURIDashes === true ? str_replace('-', '_', $segments[0]) : $segments[0]);
+            $segmentConvert = ucfirst((string) ($this->translateURIDashes === true ? str_replace('-', '_', (string) $segments[0]) : $segments[0]));
             // as soon as we encounter any segment that is not PSR-4 compliant, stop searching
             if (! $this->isValidSegment($segmentConvert)) {
                 return $segments;
@@ -617,7 +617,7 @@ class Router implements RouterInterface
             return;
         }
 
-        [$controller, $method] = array_pad(explode('::', $segments[0]), 2, null);
+        [$controller, $method] = array_pad(explode('::', (string) $segments[0]), 2, null);
 
         $this->controller = $controller;
 

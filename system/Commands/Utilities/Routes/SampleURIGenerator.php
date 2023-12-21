@@ -24,7 +24,7 @@ use Config\App;
  */
 final class SampleURIGenerator
 {
-    private RouteCollection $routes;
+    private readonly RouteCollection $routes;
 
     /**
      * Sample URI path for placeholder.
@@ -54,7 +54,7 @@ final class SampleURIGenerator
     {
         $sampleUri = $routeKey;
 
-        if (strpos($routeKey, '{locale}') !== false) {
+        if (str_contains($routeKey, '{locale}')) {
             $sampleUri = str_replace(
                 '{locale}',
                 config(App::class)->defaultLocale,

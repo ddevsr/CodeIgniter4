@@ -15,12 +15,12 @@ namespace CodeIgniter\Files;
 
 use CodeIgniter\Files\Exceptions\FileException;
 use CodeIgniter\Test\CIUnitTestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class FileCollectionTest extends CIUnitTestCase
 {
     /**

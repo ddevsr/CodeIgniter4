@@ -16,12 +16,12 @@ namespace CodeIgniter\Cache\Handlers;
 use CodeIgniter\CLI\CLI;
 use CodeIgniter\I18n\Time;
 use Config\Cache;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
- * @group CacheLive
- *
  * @internal
  */
+#[Group('CacheLive')]
 final class PredisHandlerTest extends AbstractHandlerTest
 {
     private Cache $config;

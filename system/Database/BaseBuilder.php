@@ -313,7 +313,7 @@ class BaseBuilder
         $this->db = $db;
 
         // If it contains `,`, it has multiple tables
-        if (is_string($tableName) && strpos($tableName, ',') === false) {
+        if (is_string($tableName) && ! str_contains($tableName, ',')) {
             $this->tableName = $tableName;  // @TODO remove alias if exists
         } else {
             $this->tableName = '';
@@ -409,7 +409,7 @@ class BaseBuilder
         }
 
         foreach ($select as $val) {
-            $val = trim($val);
+            $val = trim((string) $val);
 
             if ($val !== '') {
                 $this->QBSelect[] = $val;
@@ -511,7 +511,7 @@ class BaseBuilder
             throw DataException::forEmptyInputGiven('Select');
         }
 
-        if (strpos($select, ',') !== false) {
+        if (str_contains($select, ',')) {
             throw DataException::forInvalidArgument('column name not separated by comma');
         }
 
@@ -538,7 +538,7 @@ class BaseBuilder
      */
     protected function createAliasFromTable(string $item): string
     {
-        if (strpos($item, '.') !== false) {
+        if (str_contains($item, '.')) {
             $item = explode('.', $item);
 
             return end($item);
@@ -574,10 +574,10 @@ class BaseBuilder
         }
 
         foreach ((array) $from as $table) {
-            if (strpos($table, ',') !== false) {
-                $this->from(explode(',', $table));
+            if (str_contains((string) $table, ',')) {
+                $this->from(explode(',', (string) $table));
             } else {
-                $table = trim($table);
+                $table = trim((string) $table);
 
                 if ($table === '') {
                     continue;
@@ -689,11 +689,10 @@ class BaseBuilder
      * Separates multiple calls with 'AND'.
      *
      * @param array|RawSql|string $key
-     * @param mixed               $value
      *
      * @return $this
      */
-    public function where($key, $value = null, ?bool $escape = null)
+    public function where($key, mixed $value = null, ?bool $escape = null)
     {
         return $this->whereHaving('QBWhere', $key, $value, 'AND ', $escape);
     }
@@ -705,11 +704,10 @@ class BaseBuilder
      * Separates multiple calls with 'OR'.
      *
      * @param array|RawSql|string $key
-     * @param mixed               $value
      *
      * @return $this
      */
-    public function orWhere($key, $value = null, ?bool $escape = null)
+    public function orWhere($key, mixed $value = null, ?bool $escape = null)
     {
         return $this->whereHaving('QBWhere', $key, $value, 'OR ', $escape);
     }
@@ -721,11 +719,10 @@ class BaseBuilder
      * @used-by orHaving()
      *
      * @param array|RawSql|string $key
-     * @param mixed               $value
      *
      * @return $this
      */
-    protected function whereHaving(string $qbKey, $key, $value = null, string $type = 'AND ', ?bool $escape = null)
+    protected function whereHaving(string $qbKey, $key, mixed $value = null, string $type = 'AND ', ?bool $escape = null)
     {
         $rawSqlOnly = false;
 
@@ -763,7 +760,7 @@ class BaseBuilder
                     $op = trim(current($op));
 
                     // Does the key end with operator?
-                    if (substr($k, -strlen($op)) === $op) {
+                    if (str_ends_with($k, $op)) {
                         $k  = rtrim(substr($k, 0, -strlen($op)));
                         $op = " {$op}";
                     } else {
@@ -1131,7 +1128,7 @@ class BaseBuilder
 
         foreach ($keyValue as $k => $v) {
             if ($insensitiveSearch === true) {
-                $v = strtolower($v);
+                $v = strtolower((string) $v);
             }
 
             $prefix = empty($this->{$clause}) ? $this->groupGetType('') : $this->groupGetType($type);
@@ -1388,7 +1385,7 @@ class BaseBuilder
         }
 
         foreach ($by as $val) {
-            $val = trim($val);
+            $val = trim((string) $val);
 
             if ($val !== '') {
                 $val = [
@@ -1407,11 +1404,10 @@ class BaseBuilder
      * Separates multiple calls with 'AND'.
      *
      * @param array|RawSql|string $key
-     * @param mixed               $value
      *
      * @return $this
      */
-    public function having($key, $value = null, ?bool $escape = null)
+    public function having($key, mixed $value = null, ?bool $escape = null)
     {
         return $this->whereHaving('QBHaving', $key, $value, 'AND ', $escape);
     }
@@ -1420,11 +1416,10 @@ class BaseBuilder
      * Separates multiple calls with 'OR'.
      *
      * @param array|RawSql|string $key
-     * @param mixed               $value
      *
      * @return $this
      */
-    public function orHaving($key, $value = null, ?bool $escape = null)
+    public function orHaving($key, mixed $value = null, ?bool $escape = null)
     {
         return $this->whereHaving('QBHaving', $key, $value, 'OR ', $escape);
     }
@@ -1464,7 +1459,7 @@ class BaseBuilder
         } else {
             $qbOrderBy = [];
 
-            foreach (explode(',', $orderBy) as $field) {
+            foreach (explode(',', (string) $orderBy) as $field) {
                 $qbOrderBy[] = ($direction === '' && preg_match('/\s+(ASC|DESC)$/i', rtrim($field), $match, PREG_OFFSET_CAPTURE))
                     ? [
                         'field'     => ltrim(substr($field, 0, $match[0][1])),
@@ -1535,7 +1530,7 @@ class BaseBuilder
      *
      * @return $this
      */
-    public function set($key, $value = '', ?bool $escape = null)
+    public function set($key, mixed $value = '', ?bool $escape = null)
     {
         $key = $this->objectToArray($key);
 
@@ -2234,13 +2229,11 @@ class BaseBuilder
     /**
      * Allows key/value pairs to be set for batch inserts
      *
-     * @param mixed $key
-     *
      * @return $this|null
      *
      * @deprecated
      */
-    public function setInsertBatch($key, string $value = '', ?bool $escape = null)
+    public function setInsertBatch(mixed $key, string $value = '', ?bool $escape = null)
     {
         if (! is_array($key)) {
             $key = [[$key => $value]];
@@ -2333,7 +2326,7 @@ class BaseBuilder
      */
     protected function removeAlias(string $from): string
     {
-        if (strpos($from, ' ') !== false) {
+        if (str_contains($from, ' ')) {
             // if the alias is written with the AS keyword, remove it
             $from = preg_replace('/\s+AS\s+/i', ' ', $from);
 
@@ -2899,7 +2892,7 @@ class BaseBuilder
             // convert binds in where
             foreach ($this->QBWhere as $key => $where) {
                 foreach ($this->binds as $field => $bind) {
-                    $this->QBWhere[$key]['condition'] = str_replace(':' . $field . ':', $bind[0], $where['condition']);
+                    $this->QBWhere[$key]['condition'] = str_replace(':' . $field . ':', $bind[0], (string) $where['condition']);
                 }
             }
 
@@ -2996,12 +2989,12 @@ class BaseBuilder
 
         // Does the string contain a comma?  If so, we need to separate
         // the string into discreet statements
-        if (strpos($table, ',') !== false) {
+        if (str_contains($table, ',')) {
             return $this->trackAliases(explode(',', $table));
         }
 
         // if a table alias is used we can recognize it by a space
-        if (strpos($table, ' ') !== false) {
+        if (str_contains($table, ' ')) {
             // if the alias is written with the AS keyword, remove it
             $table = preg_replace('/\s+AS\s+/i', ' ', $table);
 
@@ -3018,10 +3011,8 @@ class BaseBuilder
      *
      * Generates a query string based on which functions were used.
      * Should not be called directly.
-     *
-     * @param mixed $selectOverride
      */
-    protected function compileSelect($selectOverride = false): string
+    protected function compileSelect(mixed $selectOverride = false): string
     {
         if ($selectOverride !== false) {
             $sql = $selectOverride;
@@ -3078,7 +3069,7 @@ class BaseBuilder
     protected function compileIgnore(string $statement)
     {
         if ($this->QBIgnore && isset($this->supportedIgnoreStatements[$statement])) {
-            return trim($this->supportedIgnoreStatements[$statement]) . ' ';
+            return trim((string) $this->supportedIgnoreStatements[$statement]) . ' ';
         }
 
         return '';
@@ -3123,7 +3114,7 @@ class BaseBuilder
                 // Split multiple conditions
                 $conditions = preg_split(
                     '/((?:^|\s+)AND\s+|(?:^|\s+)OR\s+)/i',
-                    $qbkey['condition'],
+                    (string) $qbkey['condition'],
                     -1,
                     PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
                 );
@@ -3145,11 +3136,11 @@ class BaseBuilder
 
                     if (! empty($matches[4])) {
                         $protectIdentifiers = false;
-                        if (strpos($matches[4], '.') !== false) {
+                        if (str_contains($matches[4], '.')) {
                             $protectIdentifiers = true;
                         }
 
-                        if (strpos($matches[4], ':') === false) {
+                        if (! str_contains($matches[4], ':')) {
                             $matches[4] = $this->db->protectIdentifiers(trim($matches[4]), false, $protectIdentifiers);
                         }
 
@@ -3468,10 +3459,8 @@ class BaseBuilder
      * While it might be nicer to have named keys for our binds array
      * with PHP 7+ we get a huge memory/performance gain with indexed
      * arrays instead, so lets take advantage of that here.
-     *
-     * @param mixed $value
      */
-    protected function setBind(string $key, $value = null, bool $escape = true): string
+    protected function setBind(string $key, mixed $value = null, bool $escape = true): string
     {
         if (! array_key_exists($key, $this->binds)) {
             $this->binds[$key] = [
@@ -3508,10 +3497,7 @@ class BaseBuilder
         return (clone $this)->from([], true)->resetQuery();
     }
 
-    /**
-     * @param mixed $value
-     */
-    protected function isSubquery($value): bool
+    protected function isSubquery(mixed $value): bool
     {
         return $value instanceof BaseBuilder || $value instanceof Closure;
     }

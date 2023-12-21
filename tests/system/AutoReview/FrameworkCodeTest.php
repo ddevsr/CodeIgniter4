@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace CodeIgniter\AutoReview;
 
 use FilesystemIterator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -22,9 +24,8 @@ use SplFileInfo;
 
 /**
  * @internal
- *
- * @group AutoReview
  */
+#[Group('AutoReview')]
 final class FrameworkCodeTest extends TestCase
 {
     /**
@@ -41,10 +42,9 @@ final class FrameworkCodeTest extends TestCase
     ];
 
     /**
-     * @dataProvider provideEachTestClassHasCorrectGroupAnnotation
-     *
      * @param class-string $class
      */
+    #[DataProvider('provideEachTestClassHasCorrectGroupAnnotation')]
     public function testEachTestClassHasCorrectGroupAnnotation(string $class): void
     {
         $reflection = new ReflectionClass($class);
@@ -124,8 +124,8 @@ final class FrameworkCodeTest extends TestCase
             array_filter(
                 iterator_to_array($iterator, false),
                 static fn (SplFileInfo $file): bool => $file->isFile()
-                    && strpos($file->getPathname(), DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR) === false
-                    && strpos($file->getPathname(), DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR) === false
+                    && ! str_contains($file->getPathname(), DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR)
+                    && ! str_contains($file->getPathname(), DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR)
             )
         );
 

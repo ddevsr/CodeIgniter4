@@ -16,12 +16,12 @@ namespace CodeIgniter\Database\Builder;
 use CodeIgniter\Database\BaseBuilder;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\Mock\MockConnection;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class CountTest extends CIUnitTestCase
 {
     protected $db;
@@ -52,7 +52,7 @@ final class CountTest extends CIUnitTestCase
 
         $expectedSQL = 'SELECT COUNT(*) AS "numrows" FROM "jobs" WHERE "id" > :id:';
 
-        $this->assertSame($expectedSQL, str_replace("\n", ' ', $answer));
+        $this->assertSame($expectedSQL, str_replace("\n", ' ', (string) $answer));
     }
 
     public function testCountAllResultsWithGroupBy(): void
@@ -65,7 +65,7 @@ final class CountTest extends CIUnitTestCase
 
         $expectedSQL = 'SELECT COUNT(*) AS "numrows" FROM ( SELECT * FROM "jobs" WHERE "id" > :id: GROUP BY "id" ) CI_count_all_results';
 
-        $this->assertSame($expectedSQL, str_replace("\n", ' ', $answer));
+        $this->assertSame($expectedSQL, str_replace("\n", ' ', (string) $answer));
     }
 
     /**
@@ -81,11 +81,11 @@ final class CountTest extends CIUnitTestCase
         $expectedSQL = 'SELECT COUNT(*) AS "numrows" FROM ( SELECT "ci_jobs".* FROM "ci_jobs" WHERE "id" > :id: GROUP BY "id" ) CI_count_all_results';
 
         $answer1 = $builder->countAllResults(false);
-        $this->assertSame($expectedSQL, str_replace("\n", ' ', $answer1));
+        $this->assertSame($expectedSQL, str_replace("\n", ' ', (string) $answer1));
 
         // We run the query one more time to make sure the DBPrefix is added only once
         $answer2 = $builder->countAllResults(false);
-        $this->assertSame($expectedSQL, str_replace("\n", ' ', $answer2));
+        $this->assertSame($expectedSQL, str_replace("\n", ' ', (string) $answer2));
     }
 
     public function testCountAllResultsWithGroupByAndHaving(): void
@@ -99,7 +99,7 @@ final class CountTest extends CIUnitTestCase
 
         $expectedSQL = 'SELECT COUNT(*) AS "numrows" FROM ( SELECT * FROM "jobs" WHERE "id" > :id: GROUP BY "id" HAVING 1 = 1 ) CI_count_all_results';
 
-        $this->assertSame($expectedSQL, str_replace("\n", ' ', $answer));
+        $this->assertSame($expectedSQL, str_replace("\n", ' ', (string) $answer));
     }
 
     public function testCountAllResultsWithHavingOnly(): void
@@ -112,6 +112,6 @@ final class CountTest extends CIUnitTestCase
 
         $expectedSQL = 'SELECT COUNT(*) AS "numrows" FROM "jobs" WHERE "id" > :id: HAVING 1 = 1';
 
-        $this->assertSame($expectedSQL, str_replace("\n", ' ', $answer));
+        $this->assertSame($expectedSQL, str_replace("\n", ' ', (string) $answer));
     }
 }

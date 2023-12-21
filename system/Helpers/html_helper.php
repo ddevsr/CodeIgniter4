@@ -11,6 +11,123 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+declare(strict_types=1);
+
+/**
+ * This file is part of CodeIgniter 4 framework.
+ *
+ * (c) CodeIgniter Foundation <admin@codeigniter.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 use CodeIgniter\Files\Exceptions\FileNotFoundException;
 use Config\DocTypes;
 use Config\Mimes;
@@ -110,7 +227,7 @@ if (! function_exists('img')) {
         $img = '<img';
 
         // Check for a relative URI
-        if (! preg_match('#^([a-z]+:)?//#i', $src['src']) && strpos($src['src'], 'data:') !== 0) {
+        if (! preg_match('#^([a-z]+:)?//#i', (string) $src['src']) && ! str_starts_with((string) $src['src'], 'data:')) {
             if ($indexPage === true) {
                 $img .= ' src="' . site_url($src['src']) . '"';
             } else {
@@ -204,7 +321,7 @@ if (! function_exists('script_tag')) {
         }
 
         foreach ($src as $k => $v) {
-            if ($k === 'src' && ! preg_match('#^([a-z]+:)?//#i', $v)) {
+            if ($k === 'src' && ! preg_match('#^([a-z]+:)?//#i', (string) $v)) {
                 if ($indexPage === true) {
                     $script .= 'src="' . site_url($v) . '" ';
                 } else {

@@ -166,7 +166,7 @@ class CLIRequest extends Request
                 continue;
             }
 
-            if (mb_strpos($value, ' ') !== false) {
+            if (mb_strpos((string) $value, ' ') !== false) {
                 $out .= '"' . $value . '" ';
             } else {
                 $out .= "{$value} ";
@@ -193,7 +193,7 @@ class CLIRequest extends Request
         $optionValue = false;
 
         foreach ($args as $i => $arg) {
-            if (mb_strpos($arg, '-') !== 0) {
+            if (mb_strpos((string) $arg, '-') !== 0) {
                 if ($optionValue) {
                     $optionValue = false;
                 } else {
@@ -204,10 +204,10 @@ class CLIRequest extends Request
                 continue;
             }
 
-            $arg   = ltrim($arg, '-');
+            $arg   = ltrim((string) $arg, '-');
             $value = null;
 
-            if (isset($args[$i + 1]) && mb_strpos($args[$i + 1], '-') !== 0) {
+            if (isset($args[$i + 1]) && mb_strpos((string) $args[$i + 1], '-') !== 0) {
                 $value       = $args[$i + 1];
                 $optionValue = true;
             }
@@ -286,11 +286,10 @@ class CLIRequest extends Request
      *
      * @param array|string|null $index  Index for item to be fetched from $_COOKIE
      * @param int|null          $filter A filter name to be applied
-     * @param mixed             $flags
      *
      * @return array|null
      */
-    public function getCookie($index = null, $filter = null, $flags = null)
+    public function getCookie($index = null, $filter = null, mixed $flags = null)
     {
         return $this->returnNullOrEmptyArray($index);
     }

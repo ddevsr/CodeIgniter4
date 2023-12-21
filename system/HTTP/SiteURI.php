@@ -28,7 +28,7 @@ class SiteURI extends URI
     /**
      * The current baseURL.
      */
-    private URI $baseURL;
+    private readonly URI $baseURL;
 
     /**
      * The path part of baseURL.
@@ -231,7 +231,7 @@ class SiteURI extends URI
     /**
      * @deprecated
      */
-    public function setURI(?string $uri = null)
+    public function setURI(?string $uri = null): never
     {
         throw new BadMethodCallException('Cannot use this method.');
     }
@@ -352,7 +352,7 @@ class SiteURI extends URI
 
         // Scheme
         if (isset($parts['scheme'])) {
-            $this->setScheme(rtrim($parts['scheme'], ':/'));
+            $this->setScheme(rtrim((string) $parts['scheme'], ':/'));
         } else {
             $this->setScheme('http');
         }

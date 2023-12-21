@@ -28,6 +28,7 @@ use CodeIgniter\I18n\Time;
 use Config\Services;
 use Config\Toolbar as ToolbarConfig;
 use Kint\Kint;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 /**
  * Displays a toolbar with bits of stats to aid a developer in debugging.
@@ -410,7 +411,7 @@ class Toolbar
             // Non-HTML formats should not include the debugbar
             // then we send headers saying where to find the debug data
             // for this response
-            if ($request->isAJAX() || strpos($format, 'html') === false) {
+            if ($request->isAJAX() || ! str_contains($format, 'html')) {
                 $response->setHeader('Debugbar-Time', "{$time}")
                     ->setHeader('Debugbar-Link', site_url("?debugbar_time={$time}"));
 
@@ -433,7 +434,7 @@ class Toolbar
                 . $kintScript
                 . PHP_EOL;
 
-            if (strpos($response->getBody(), '<head>') !== false) {
+            if (str_contains($response->getBody(), '<head>')) {
                 $response->setBody(
                     preg_replace(
                         '/<head>/',
@@ -453,10 +454,9 @@ class Toolbar
     /**
      * Inject debug toolbar into the response.
      *
-     * @codeCoverageIgnore
-     *
      * @return void
      */
+    #[CodeCoverageIgnore]
     public function respond()
     {
         if (ENVIRONMENT === 'testing') {

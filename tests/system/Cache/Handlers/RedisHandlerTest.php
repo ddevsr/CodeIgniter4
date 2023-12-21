@@ -16,12 +16,12 @@ namespace CodeIgniter\Cache\Handlers;
 use CodeIgniter\CLI\CLI;
 use CodeIgniter\I18n\Time;
 use Config\Cache;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
- * @group CacheLive
- *
  * @internal
  */
+#[Group('CacheLive')]
 final class RedisHandlerTest extends AbstractHandlerTest
 {
     private Cache $config;
@@ -137,7 +137,7 @@ final class RedisHandlerTest extends AbstractHandlerTest
         }
 
         // check that there are 101 items is cache store
-        $dbInfo = explode(',', $this->handler->getCacheInfo()['db0']);
+        $dbInfo = explode(',', (string) $this->handler->getCacheInfo()['db0']);
         $this->assertSame('keys=101', $dbInfo[0]);
 
         // Checking that given the prefix "key_1", deleteMatching deletes 13 keys:
@@ -145,7 +145,7 @@ final class RedisHandlerTest extends AbstractHandlerTest
         $this->assertSame(13, $this->handler->deleteMatching('key_1*'));
 
         // check that there remains (101 - 13) = 88 items is cache store
-        $dbInfo = explode(',', $this->handler->getCacheInfo()['db0']);
+        $dbInfo = explode(',', (string) $this->handler->getCacheInfo()['db0']);
         $this->assertSame('keys=88', $dbInfo[0]);
     }
 
@@ -157,7 +157,7 @@ final class RedisHandlerTest extends AbstractHandlerTest
         }
 
         // check that there are 101 items is cache store
-        $dbInfo = explode(',', $this->handler->getCacheInfo()['db0']);
+        $dbInfo = explode(',', (string) $this->handler->getCacheInfo()['db0']);
         $this->assertSame('keys=101', $dbInfo[0]);
 
         // Checking that given the suffix "1", deleteMatching deletes 11 keys:
@@ -165,7 +165,7 @@ final class RedisHandlerTest extends AbstractHandlerTest
         $this->assertSame(11, $this->handler->deleteMatching('*1'));
 
         // check that there remains (101 - 13) = 88 items is cache store
-        $dbInfo = explode(',', $this->handler->getCacheInfo()['db0']);
+        $dbInfo = explode(',', (string) $this->handler->getCacheInfo()['db0']);
         $this->assertSame('keys=90', $dbInfo[0]);
     }
 

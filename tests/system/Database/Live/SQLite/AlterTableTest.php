@@ -19,14 +19,14 @@ use CodeIgniter\Database\SQLite3\Table;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
 use Config\Database;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
- * @group DatabaseLive
- *
  * @requires extension sqlite3
  *
  * @internal
  */
+#[Group('DatabaseLive')]
 final class AlterTableTest extends CIUnitTestCase
 {
     use DatabaseTestTrait;
@@ -90,17 +90,17 @@ final class AlterTableTest extends CIUnitTestCase
         $this->assertArrayHasKey('id', $fields);
         $this->assertNull($fields['id']['default']);
         $this->assertTrue($fields['id']['null']);
-        $this->assertSame('integer', strtolower($fields['id']['type']));
+        $this->assertSame('integer', strtolower((string) $fields['id']['type']));
 
         $this->assertArrayHasKey('name', $fields);
         $this->assertNull($fields['name']['default']);
         $this->assertFalse($fields['name']['null']);
-        $this->assertSame('varchar', strtolower($fields['name']['type']));
+        $this->assertSame('varchar', strtolower((string) $fields['name']['type']));
 
         $this->assertArrayHasKey('email', $fields);
         $this->assertNull($fields['email']['default']);
         $this->assertTrue($fields['email']['null']);
-        $this->assertSame('varchar', strtolower($fields['email']['type']));
+        $this->assertSame('varchar', strtolower((string) $fields['email']['type']));
 
         $keys = $this->getPrivateProperty($this->table, 'keys');
 

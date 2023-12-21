@@ -13,19 +13,19 @@ declare(strict_types=1);
 
 namespace CodeIgniter\Database;
 
+use Stringable;
+
 /**
  * @see \CodeIgniter\Database\RawSqlTest
  */
-class RawSql
+class RawSql implements Stringable
 {
-    /**
-     * @var string Raw SQL string
-     */
-    private string $string;
-
-    public function __construct(string $sqlString)
-    {
-        $this->string = $sqlString;
+    public function __construct(
+        /**
+         * @var string Raw SQL string
+         */
+        private string $string
+    ) {
     }
 
     public function __toString(): string

@@ -28,7 +28,7 @@ class CastBinaryUUID extends BaseCast
     {
         $string = unpack('h*', $binary);
 
-        return preg_replace('/([0-9a-f]{8})([0-9a-f]{4})([0-9a-f]{4})([0-9a-f]{4})([0-9a-f]{12})/', '$1-$2-$3-$4-$5', $string[1]);
+        return preg_replace('/([0-9a-f]{8})([0-9a-f]{4})([0-9a-f]{4})([0-9a-f]{4})([0-9a-f]{12})/', '$1-$2-$3-$4-$5', (string) $string[1]);
     }
 
     /**

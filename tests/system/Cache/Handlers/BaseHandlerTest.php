@@ -14,22 +14,19 @@ declare(strict_types=1);
 namespace CodeIgniter\Cache\Handlers;
 
 use CodeIgniter\Test\CIUnitTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use stdClass;
 use Tests\Support\Cache\RestrictiveHandler;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class BaseHandlerTest extends CIUnitTestCase
 {
-    /**
-     * @dataProvider provideValidateKeyInvalidType
-     *
-     * @param mixed $input
-     */
-    public function testValidateKeyInvalidType($input): void
+    #[DataProvider('provideValidateKeyInvalidType')]
+    public function testValidateKeyInvalidType(mixed $input): void
     {
         $this->expectException('InvalidArgumentException');
         $this->expectExceptionMessage('Cache key must be a string');

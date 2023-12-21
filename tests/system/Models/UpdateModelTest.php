@@ -18,6 +18,8 @@ use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Entity\Entity;
 use Config\Database;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use stdClass;
 use Tests\Support\Entity\UUID;
 use Tests\Support\Models\EventModel;
@@ -29,10 +31,9 @@ use Tests\Support\Models\ValidModel;
 use Tests\Support\Models\WithoutAutoIncrementModel;
 
 /**
- * @group DatabaseLive
- *
  * @internal
  */
+#[Group('DatabaseLive')]
 final class UpdateModelTest extends LiveModelTestCase
 {
     public function testSetWorksWithUpdate(): void
@@ -505,10 +506,9 @@ final class UpdateModelTest extends LiveModelTestCase
     }
 
     /**
-     * @dataProvider provideUpdateThrowDatabaseExceptionWithoutWhereClause
-     *
      * @param false|null $id
      */
+    #[DataProvider('provideUpdateThrowDatabaseExceptionWithoutWhereClause')]
     public function testUpdateThrowDatabaseExceptionWithoutWhereClause($id, string $exception, string $exceptionMessage): void
     {
         $this->expectException($exception);

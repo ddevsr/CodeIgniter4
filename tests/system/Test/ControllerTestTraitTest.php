@@ -21,20 +21,20 @@ use CodeIgniter\Test\Mock\MockLogger as LoggerConfig;
 use Config\App;
 use Config\Services;
 use Exception;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Tests\Support\Controllers\Newautorouting;
 use Tests\Support\Controllers\Popcorn;
 
 /**
  * Exercise our Controller class.
  *
- * @runTestsInSeparateProcesses
- *
- * @preserveGlobalState         disabled
- *
  * @internal
- *
- * @group SeparateProcess
  */
+#[PreserveGlobalState(false)]
+#[Group('SeparateProcess')]
+#[RunTestsInSeparateProcesses]
 final class ControllerTestTraitTest extends CIUnitTestCase
 {
     use ControllerTestTrait;
@@ -250,7 +250,7 @@ final class ControllerTestTraitTest extends CIUnitTestCase
     public function testUsesRequestBody(): void
     {
         $this->controller = new class () extends Controller {
-            public function throwsBody(): void
+            public function throwsBody(): never
             {
                 throw new Exception($this->request->getBody());
             }

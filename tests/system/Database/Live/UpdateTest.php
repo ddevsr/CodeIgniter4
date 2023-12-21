@@ -19,13 +19,13 @@ use CodeIgniter\Database\RawSql;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
 use Config\Database;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\Support\Database\Seeds\CITestSeeder;
 
 /**
- * @group DatabaseLive
- *
  * @internal
  */
+#[Group('DatabaseLive')]
 final class UpdateTest extends CIUnitTestCase
 {
     use DatabaseTestTrait;
@@ -71,7 +71,7 @@ final class UpdateTest extends CIUnitTestCase
 
             $this->assertSame('Richard A Causey', $result[2]->name);
             $this->assertSame('Chris Martin', $result[3]->name);
-        } catch (DatabaseException $e) {
+        } catch (DatabaseException) {
             // This DB doesn't support Where and Limit together
             // but we don't want it called a "Risky" test.
             $this->assertTrue(true);
@@ -106,7 +106,7 @@ final class UpdateTest extends CIUnitTestCase
             $this->assertSame('Ahmadinejad', $result[1]->name);
             $this->assertSame('Richard A Causey', $result[2]->name);
             $this->assertSame('Chris Martin', $result[3]->name);
-        } catch (DatabaseException $e) {
+        } catch (DatabaseException) {
             // This DB doesn't support Where and Limit together
             // but we don't want it called a "Risky" test.
             $this->assertTrue(true);

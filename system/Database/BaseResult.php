@@ -25,22 +25,6 @@ use stdClass;
 abstract class BaseResult implements ResultInterface
 {
     /**
-     * Connection ID
-     *
-     * @var object|resource
-     * @phpstan-var TConnection
-     */
-    public $connID;
-
-    /**
-     * Result ID
-     *
-     * @var false|object|resource
-     * @phpstan-var false|TResult
-     */
-    public $resultID;
-
-    /**
      * Result Array
      *
      * @var array[]
@@ -90,10 +74,20 @@ abstract class BaseResult implements ResultInterface
      * @phpstan-param TConnection $connID
      * @phpstan-param TResult     $resultID
      */
-    public function __construct(&$connID, &$resultID)
-    {
-        $this->connID   = $connID;
-        $this->resultID = $resultID;
+    public function __construct(
+        /**
+         * Connection ID
+         *
+         * @phpstan-var TConnection
+         */
+        public $connID,
+        /**
+         * Result ID
+         *
+         * @phpstan-var false|TResult
+         */
+        public $resultID
+    ) {
     }
 
     /**

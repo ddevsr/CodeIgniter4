@@ -19,13 +19,14 @@ use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\View\Exceptions\ViewException;
 use Config\Services;
 use Config\View as ViewConfig;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use stdClass;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class ParserTest extends CIUnitTestCase
 {
     private FileLocator $loader;
@@ -475,12 +476,10 @@ final class ParserTest extends CIUnitTestCase
     }
 
     /**
-     * @dataProvider provideEscHandling
-     *
-     * @param mixed      $value
      * @param mixed|null $expected
      */
-    public function testEscHandling($value, $expected = null): void
+    #[DataProvider('provideEscHandling')]
+    public function testEscHandling(mixed $value, $expected = null): void
     {
         if ($expected === null) {
             $expected = $value;
@@ -783,7 +782,7 @@ final class ParserTest extends CIUnitTestCase
 
     public function testParserPluginNoParams(): void
     {
-        $this->parser->addPlugin('hit:it', static fn ($str) => str_replace('here', 'Hip to the Hop', $str), true);
+        $this->parser->addPlugin('hit:it', static fn ($str) => str_replace('here', 'Hip to the Hop', (string) $str), true);
 
         $template = '{+ hit:it +} stuff here {+ /hit:it +}';
 
@@ -793,7 +792,7 @@ final class ParserTest extends CIUnitTestCase
     public function testParserPluginClosure(): void
     {
         $config                   = $this->config;
-        $config->plugins['hello'] = static fn (array $params = []) => 'Hello, ' . trim($params[0]);
+        $config->plugins['hello'] = static fn (array $params = []) => 'Hello, ' . trim((string) $params[0]);
 
         $this->parser = new Parser($config, $this->viewsDir, $this->loader);
 

@@ -21,12 +21,13 @@ use CodeIgniter\Test\Mock\MockCURLRequest;
 use Config\App;
 use Config\CURLRequest as ConfigCURLRequest;
 use CURLFile;
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class CURLRequestDoNotShareOptionsTest extends CIUnitTestCase
 {
     private CURLRequest $request;
@@ -181,9 +182,7 @@ final class CURLRequestDoNotShareOptionsTest extends CIUnitTestCase
         $this->assertSame('apple', $request->header('fruit')->getValue());
     }
 
-    /**
-     * @backupGlobals enabled
-     */
+    #[BackupGlobals(true)]
     public function testOptionsHeadersNotUsingPopulate(): void
     {
         $_SERVER['HTTP_HOST']            = 'site1.com';
@@ -243,9 +242,7 @@ final class CURLRequestDoNotShareOptionsTest extends CIUnitTestCase
         $this->assertNull($request->header('Content-Length'));
     }
 
-    /**
-     * @backupGlobals enabled
-     */
+    #[BackupGlobals(true)]
     public function testHeaderContentLengthNotSharedBetweenClients(): void
     {
         $_SERVER['HTTP_CONTENT_LENGTH'] = '10';

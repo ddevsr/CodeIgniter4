@@ -15,12 +15,12 @@ namespace CodeIgniter\Commands\Utilities;
 
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\StreamFilterTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * @internal
- *
- * @group Others
  */
+#[Group('Others')]
 final class NamespacesTest extends CIUnitTestCase
 {
     use StreamFilterTrait;
@@ -73,15 +73,15 @@ final class NamespacesTest extends CIUnitTestCase
 
         $this->assertStringContainsString(
             '|CodeIgniter|ROOTPATH/system|Yes|',
-            str_replace(' ', '', $this->getBuffer())
+            str_replace(' ', '', (string) $this->getBuffer())
         );
         $this->assertStringContainsString(
             '|App|ROOTPATH/app|Yes|',
-            str_replace(' ', '', $this->getBuffer())
+            str_replace(' ', '', (string) $this->getBuffer())
         );
         $this->assertStringContainsString(
             '|Config|APPPATH/Config|Yes|',
-            str_replace(' ', '', $this->getBuffer())
+            str_replace(' ', '', (string) $this->getBuffer())
         );
     }
 }

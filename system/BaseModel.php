@@ -584,7 +584,7 @@ abstract class BaseModel
      */
     public function findColumn(string $columnName)
     {
-        if (strpos($columnName, ',') !== false) {
+        if (str_contains($columnName, ',')) {
             throw DataException::forFindColumnHaveMultipleColumns();
         }
 
@@ -1344,19 +1344,12 @@ abstract class BaseModel
      */
     protected function intToDate(int $value)
     {
-        switch ($this->dateFormat) {
-            case 'int':
-                return $value;
-
-            case 'datetime':
-                return date('Y-m-d H:i:s', $value);
-
-            case 'date':
-                return date('Y-m-d', $value);
-
-            default:
-                throw ModelException::forNoDateFormat(static::class);
-        }
+        return match ($this->dateFormat) {
+            'int'      => $value,
+            'datetime' => date('Y-m-d H:i:s', $value),
+            'date'     => date('Y-m-d', $value),
+            default    => throw ModelException::forNoDateFormat(static::class),
+        };
     }
 
     /**
@@ -1373,19 +1366,12 @@ abstract class BaseModel
      */
     protected function timeToDate(Time $value)
     {
-        switch ($this->dateFormat) {
-            case 'datetime':
-                return $value->format('Y-m-d H:i:s');
-
-            case 'date':
-                return $value->format('Y-m-d');
-
-            case 'int':
-                return $value->getTimestamp();
-
-            default:
-                return (string) $value;
-        }
+        return match ($this->dateFormat) {
+            'datetime' => $value->format('Y-m-d H:i:s'),
+            'date'     => $value->format('Y-m-d'),
+            'int'      => $value->getTimestamp(),
+            default    => (string) $value,
+        };
     }
 
     /**

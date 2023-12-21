@@ -307,7 +307,7 @@ trait ResponseTrait
         if (is_string($data)) {
             // The content type should be text/... and not application/...
             $contentType = $this->response->getHeaderLine('Content-Type');
-            $contentType = str_replace('application/json', 'text/html', $contentType);
+            $contentType = str_replace('application/json', 'text/html', (string) $contentType);
             $contentType = str_replace('application/', 'text/', $contentType);
             $this->response->setContentType($contentType);
             $this->format = 'html';

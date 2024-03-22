@@ -176,7 +176,7 @@ class CodeIgniter
         $this->startTime = microtime(true);
         $this->config    = $config;
 
-        $this->pageCache = Services::responsecache();
+        $this->pageCache = service('responsecache');
     }
 
     /**
@@ -286,7 +286,7 @@ class CodeIgniter
             Kint::$plugins = $config->plugins;
         }
 
-        $csp = Services::csp();
+        $csp = service('csp');
         if ($csp->enabled()) {
             RichRenderer::$js_nonce  = $csp->getScriptNonce();
             RichRenderer::$css_nonce = $csp->getStyleNonce();
@@ -343,7 +343,7 @@ class CodeIgniter
 
         $this->benchmark->start('required_before_filters');
         // Start up the filters
-        $filters = Services::filters();
+        $filters = service('filters');
         // Run required before filters
         $possibleResponse = $this->runRequiredBeforeFilters($filters);
 
@@ -606,7 +606,7 @@ class CodeIgniter
             $this->startTime = microtime(true);
         }
 
-        $this->benchmark = Services::timer();
+        $this->benchmark = service('timer');
         $this->benchmark->start('total_execution', $this->startTime);
         $this->benchmark->start('bootstrap');
     }
@@ -896,7 +896,7 @@ class CodeIgniter
         assert(is_string($this->controller));
 
         $class = new $this->controller();
-        $class->initController($this->request, $this->response, Services::logger());
+        $class->initController($this->request, $this->response, service('logger'));
 
         $this->benchmark->stop('controller_constructor');
 

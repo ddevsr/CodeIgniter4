@@ -140,6 +140,16 @@ final class FileCollectionTest extends CIUnitTestCase
         $this->assertSame([$this->file], $files->get());
     }
 
+    public function testAddNotStringFile(): void
+    {
+        $files = new FileCollection();
+
+        $this->expectException(FileException::class);
+        $this->expectExceptionMessage(lang('Files.expectedFile', ['add']));
+
+        $files->add(999);
+    }
+
     public function testAddStringFileRecursiveDoesNothing(): void
     {
         $files = new FileCollection();
@@ -162,6 +172,16 @@ final class FileCollectionTest extends CIUnitTestCase
         $files->add(SUPPORTPATH . 'Files/able');
 
         $this->assertSame($expected, $files->get());
+    }
+
+    public function testAddArrayNotStringDirectory(): void
+    {
+        $files = new FileCollection();
+
+        $this->expectException(FileException::class);
+        $this->expectExceptionMessage(lang('Files.expectedFile', ['add']));
+
+        $files->add([3]);
     }
 
     public function testAddStringDirectoryRecursive(): void

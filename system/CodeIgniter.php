@@ -176,7 +176,7 @@ class CodeIgniter
         $this->startTime = microtime(true);
         $this->config    = $config;
 
-        $this->pageCache = Services::responsecache();
+        $this->pageCache = service('responsecache');
     }
 
     /**
@@ -342,8 +342,12 @@ class CodeIgniter
         $this->benchmark->stop('bootstrap');
 
         $this->benchmark->start('required_before_filters');
-        // Start up the filters
-        $filters = Services::filters();
+        /**
+         * Start up the filters
+         *
+         * @var \CodeIgniter\Filters\Filters $filters
+         */
+        $filters = service('filters');
         // Run required before filters
         $possibleResponse = $this->runRequiredBeforeFilters($filters);
 
@@ -352,7 +356,7 @@ class CodeIgniter
             $this->response = $possibleResponse;
         } else {
             try {
-                $this->response = $this->handleRequest($routes, config(Cache::class), $returnResponse);
+                $this->response = $this->handleRequest($routes, config(Cache::class), $filters);
             } catch (DeprecatedRedirectException|ResponsableInterface $e) {
                 $this->outputBufferingEnd();
                 if ($e instanceof DeprecatedRedirectException) {
@@ -445,10 +449,8 @@ class CodeIgniter
      *
      * @throws PageNotFoundException
      * @throws RedirectException
-     *
-     * @deprecated $returnResponse is deprecated.
      */
-    protected function handleRequest(?RouteCollectionInterface $routes, Cache $cacheConfig, bool $returnResponse = false)
+    protected function handleRequest(?RouteCollectionInterface $routes, Cache $cacheConfig, Filters $filters)
     {
         if ($this->request instanceof IncomingRequest && $this->request->getMethod() === 'CLI') {
             return $this->response->setStatusCode(405)->setBody('Method Not Allowed');
@@ -460,9 +462,6 @@ class CodeIgniter
         $uri = $this->request->getPath();
 
         if ($this->enableFilters) {
-            /** @var Filters $filters */
-            $filters = service('filters');
-
             // If any filters were specified within the routes file,
             // we need to ensure it's active for the current request
             if ($routeFilters !== null) {
@@ -518,8 +517,6 @@ class CodeIgniter
         $this->gatherOutput($cacheConfig, $returned);
 
         if ($this->enableFilters) {
-            /** @var Filters $filters */
-            $filters = service('filters');
             $filters->setResponse($this->response);
 
             // Run "after" filters
@@ -610,7 +607,7 @@ class CodeIgniter
             $this->startTime = microtime(true);
         }
 
-        $this->benchmark = Services::timer();
+        $this->benchmark = service('timer');
         $this->benchmark->start('total_execution', $this->startTime);
         $this->benchmark->start('bootstrap');
     }
@@ -901,7 +898,7 @@ class CodeIgniter
         assert(is_string($this->controller));
 
         $class = new $this->controller();
-        $class->initController($this->request, $this->response, Services::logger());
+        $class->initController($this->request, $this->response, service('logger'));
 
         $this->benchmark->stop('controller_constructor');
 
